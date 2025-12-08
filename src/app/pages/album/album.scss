@@ -23,7 +23,7 @@
   --textHave   : #fafafa;
   --dup        : #ffc048;
   --accent     : #2c3e50;
-  --selected    : #0b71bd;
+  --selected   : #0b71bd;
 
 }
 
@@ -112,6 +112,7 @@
   border        : none;
   background    : var(--card);
   font-weight   : 400;
+  cursor        : pointer;
 }
 
 .tabs .active
@@ -167,6 +168,14 @@
   user-select   : none;
   box-shadow    : 0 1px 2px rgba(0, 0, 0, 0.08);
   color         : var(--textNoHave);
+  cursor        : pointer;
+  border        : 2px solid transparent;
+
+  &:hover
+  {
+    border-color : var(--selected);
+    transform    : scale(1.1);
+  }
 }
 
 .card.has
