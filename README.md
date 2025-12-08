@@ -1,3 +1,8 @@
+# Build
+## ng build --base-href="https://okavango81.github.io/album/" --configuration production
+# Deploy
+## npx angular-cli-ghpages --dir=dist/album/browser
+
 # Album
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.0.2.
