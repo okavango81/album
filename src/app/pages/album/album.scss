@@ -1,0 +1,236 @@
+:root
+{
+  --bg     : #fafafa;
+  --card   : #dcdcdc;
+  --have   : #41ff44;
+  --dup    : #ffc700;
+  --accent : #1976d2;
+}
+
+:host
+{
+  display      : block;
+  padding      : 10px;
+  background   : #fafafa;
+  min-height   : 100vh;
+  box-sizing   : border-box;
+  margin       : 0 auto;
+  max-width    : 100%;
+  --bg         : #ebebeb;
+  --card       : #e1e1e1;
+  --have       : #00b894;
+  --textNoHave : #777;
+  --textHave   : #fafafa;
+  --dup        : #ffc048;
+  --accent     : #2c3e50;
+  --selected    : #0b71bd;
+
+}
+
+/* ---------------------------------------------------- */
+/* MEDIA QUERY PARA TELAS GRANDES (NOTEBOOKS/DESKTOPS) */
+/* ---------------------------------------------------- */
+
+@media (min-width : 1024px)
+{
+  /* Define a largura máxima quando a tela for maior que 1024px */
+  :host
+  {
+    /* Escolha a largura desejada para o notebook (ex: 700px) */
+    max-width  : 600px;
+
+    /* Aumenta o padding lateral em telas grandes para melhor visual */
+    padding    : 20px 30px;
+
+    /* Aplica sombra para dar a sensação de "cartão" centralizado */
+    box-shadow : 20px 30px 50px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Opcional: Ajuste o espaçamento da grade para telas grandes */
+  .grid
+  {
+    /* Exemplo: Mantenha 5 colunas, mas ajuste o gap se desejar */
+    gap : 15px;
+  }
+  button.reset
+  {
+    width : 50%;
+  }
+}
+
+.topbar
+{
+  display         : flex;
+  gap             : 6px;
+  align-items     : center;
+  justify-content : space-between;
+  flex-wrap       : wrap;
+  margin          : 15px 0;
+}
+
+.search-input
+{
+  padding       : 16px;
+  border-radius : 10px;
+  border        : 1px solid #ccc;
+  width         : 100%; /* Ocupa todo o espaço disponível */
+  margin-bottom : 10px; /* Espaçamento antes dos botões de abas */
+  box-sizing    : border-box;
+}
+
+/* Ajuste o topbar para que o input fique acima das abas */
+.topbar
+{
+  display       : block; /* Mude de flex para block para o input ocupar toda a largura */
+  margin-bottom : 18px;
+}
+
+.tabs
+{
+  /* Mantenha o flex para as abas */
+  display        : flex;
+  gap            : 6px;
+  overflow-x     : auto;
+  padding-bottom : 6px;
+  margin-bottom  : 18px; /* Adiciona espaço entre as abas e as ações */
+}
+
+/* Certifique-se de que as ações fiquem no final da linha */
+.actions
+{
+  display         : flex;
+  gap             : 8px;
+  align-items     : center;
+  justify-content : flex-end; /* Alinha à direita, se houver espaço */
+}
+
+.tabs button
+{
+  margin        : 8px;
+  padding       : 6px 40px;
+  border-radius : 2rem;
+  border        : none;
+  background    : var(--card);
+  font-weight   : 400;
+}
+
+.tabs .active
+{
+  background : var(--selected);
+  color      : var(--textHave);
+}
+
+.actions
+{
+  display     : flex;
+  gap         : 6px;
+  align-items : center;
+}
+
+.currentTeam
+{
+  padding     : 16px 0;
+  font-size   : 1.2rem;
+  font-weight : 900;
+  color       : var(--accent);
+}
+
+.actions button, .actions .import
+{
+  padding       : 8px 10px;
+  border-radius : 6px;
+  border        : none;
+  background    : #eee;
+  font-weight   : 600;
+}
+
+.actions .import input
+{
+  display : none;
+}
+
+.grid
+{
+  display               : grid;
+  grid-template-columns : repeat(5, 1fr);
+  gap                   : 10px;
+}
+
+.card
+{
+  height        : 70px;
+  border-radius : 0.5rem;
+  background    : var(--card);
+  font-size     : 18px;
+  font-weight   : 700;
+  position      : relative;
+  user-select   : none;
+  box-shadow    : 0 1px 2px rgba(0, 0, 0, 0.08);
+  color         : var(--textNoHave);
+}
+
+.card.has
+{
+  background : var(--have);
+  color      : var(--textHave);
+}
+
+.card.dup
+{
+  background : #ffc700;
+  color      : var(--textHave);
+}
+
+.card.is-pressing
+{
+  transform  : scale(0.98);
+  transition : transform 0.1s ease-out;
+}
+
+.card .number
+{
+  position : absolute;
+  top      : 2.5em;
+  right    : 5px;
+}
+
+.badge
+{
+  position      : absolute;
+  background    : #0008;
+  color         : white;
+  border-radius : 10%;
+  padding       : 0.5rem;
+  font-size     : 14px;
+}
+
+.reset
+{
+  margin-top : 30px;
+}
+
+button.reset
+{
+  padding          : 15px;
+  border-radius    : 2rem;
+  font-size        : 1rem;
+  background-color : var(--accent);
+  color            : var(--textHave);
+  border           : none;
+  width            : 100%;
+  margin-top       : 3em;
+  margin-left      : auto;
+  margin-right     : auto;
+  display          : block;
+}
+
+.missing
+{
+  display         : flex;
+  font-size       : 0.9em;
+  font-weight     : 300;
+  margin-top      : 1em;
+  color           : var(--textNoHave);
+  justify-content : center;
+}
+
