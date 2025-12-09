@@ -1,4 +1,3 @@
-
 <div class="topbar">
   <div class="tabs">
     <button *ngFor="let t of teams; let i = index"
@@ -7,13 +6,17 @@
       {{ t.name }}
     </button>
   </div>
-  <input type="text"
-         placeholder="Buscar por número ou seleção..."
-         #searchInput (click)="selectText($event)" (keyup.enter)="search(searchInput.value)" class="search-input">
+  <div class="search-wrapper">
+<!--    <span class="mag">&#128269;</span>-->
+    <span class="mag">&telrec;</span>
+    <input type="text"
+           placeholder="Buscar por número ou seleção..."
+           #searchInput (click)="selectText($event)" (keyup.enter)="search(searchInput.value)" class="search-input">
+  </div>
 </div>
 
 <div class="currentTeam">
-  <span>{{teams[selectedTeamIndex].name}}</span>
+  <span>{{ teams[selectedTeamIndex].name }}</span>
 </div>
 
 <div class="grid">

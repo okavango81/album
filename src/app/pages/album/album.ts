@@ -1,4 +1,4 @@
-import {Component, ChangeDetectorRef, TrackByFunction} from '@angular/core';
+import {Component, ChangeDetectorRef, TrackByFunction, ElementRef, ViewChild} from '@angular/core';
 import { Figurinha} from '../../models/figurinha/figurinha';
 import {Sticker} from '../../services/sticker';
 import {NgForOf, NgIf} from '@angular/common';
@@ -16,6 +16,8 @@ export class Album {
   trackByNumber(index: number, item: Figurinha) {
     return item.number;
   }
+
+  @ViewChild('searchInput') searchInput!: ElementRef<HTMLInputElement>;
 
   figurinhas: Figurinha[] = [];
   lastClick = 0;
@@ -122,6 +124,7 @@ export class Album {
       this.doubleClick(fig);
     }
     this.lastClick = now;
+    this.searchInput.nativeElement.value = "";
   }
 
   doubleClick(fig: Figurinha) {

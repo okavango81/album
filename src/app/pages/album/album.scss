@@ -17,13 +17,13 @@
   margin       : 0 auto;
   max-width    : 100%;
   --bg         : #ebebeb;
-  --card       : #e1e1e1;
+  --card       : #eeeeee;
   --have       : #00b894;
   --textNoHave : #777;
   --textHave   : #fafafa;
   --dup        : #ffc048;
   --accent     : #2c3e50;
-  --selected   : #0b71bd;
+  --selected   : #0b76cb;
 
 }
 
@@ -60,30 +60,43 @@
 
 .topbar
 {
-  display         : flex;
-  gap             : 6px;
+  display         : block;
+  gap             : 4px;
   align-items     : center;
   justify-content : space-between;
   flex-wrap       : wrap;
-  margin          : 15px 0;
+}
+
+.search-wrapper
+{
+  position : relative;
+}
+
+.mag
+{
+  position       : absolute;
+  top            : 36%;
+  left           : 0.7rem;
+  transform      : translateY(-50%) scaleX(-1);
+  font-size      : 2.5rem;
+  pointer-events : none;
+  color          : var(--textNoHave);
+  font-weight    : 300;
 }
 
 .search-input
 {
-  padding       : 16px;
-  border-radius : 10px;
+  padding       : 16px 45px;
+  border-radius : 8rem;
   border        : 1px solid #ccc;
   width         : 100%; /* Ocupa todo o espaço disponível */
   margin-bottom : 10px; /* Espaçamento antes dos botões de abas */
   box-sizing    : border-box;
+  font-size     : 1.1rem;
+  font-weight   : 700;
+  color         : var(--textNoHave);
 }
 
-/* Ajuste o topbar para que o input fique acima das abas */
-.topbar
-{
-  display       : block; /* Mude de flex para block para o input ocupar toda a largura */
-  margin-bottom : 18px;
-}
 
 .tabs
 {
@@ -130,10 +143,10 @@
 
 .currentTeam
 {
-  padding     : 16px 0;
+  padding     : 18px 0;
   font-size   : 1.2rem;
-  font-weight : 900;
-  color       : var(--accent);
+  font-weight : 700;
+  color       : var(--selected);
 }
 
 .actions button, .actions .import
@@ -224,21 +237,25 @@ button.reset
   border-radius    : 2rem;
   font-size        : 1rem;
   background-color : var(--selected);
-  color            : var(--textHave);
-  border           : none;
+  color            : #fafafa;
   width            : 100%;
-  margin-top       : 3em;
-  margin-left      : auto;
-  margin-right     : auto;
   display          : block;
+  border           : none;
+  margin-top       :  3.5rem;
 }
+
+div.reset
+{
+  margin-top : 3rem;
+}
+
 
 .missing
 {
   display         : flex;
   font-size       : 0.9em;
-  font-weight     : 300;
-  margin-top      : 1em;
+  font-weight     : 500;
+  margin-top      : 0.5em;
   color           : var(--textNoHave);
   justify-content : center;
 }
