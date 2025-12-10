@@ -9,21 +9,22 @@
 
 :host
 {
-  display      : block;
-  padding      : 10px;
-  background   : #fafafa;
-  min-height   : 100vh;
-  box-sizing   : border-box;
-  margin       : 0 auto;
-  max-width    : 100%;
-  --bg         : #ebebeb;
-  --card       : #eeeeee;
-  --have       : #00b894;
-  --textNoHave : #777;
-  --textHave   : #fafafa;
-  --dup        : #ffc048;
-  --accent     : #2c3e50;
-  --selected   : #0b76cb;
+  display       : block;
+  padding       : 10px;
+  background    : #fafafa;
+  min-height    : 100vh;
+  box-sizing    : border-box;
+  margin        : 0 auto;
+  max-width     : 100%;
+  --bg          : #ebebeb;
+  --card        : #eeeeee;
+  --have        : #00b894;
+  --textNoHave  : #777;
+  --textHave    : #fafafa;
+  --dup         : #ffc048;
+  --accent      : #2c3e50;
+  --selected    : #0b76cb;
+  --currentTeam : #145f14;
 
 }
 
@@ -95,6 +96,15 @@
   font-size     : 1.1rem;
   font-weight   : 700;
   color         : var(--textNoHave);
+}
+
+.radio-group
+{
+  display         : flex;
+  justify-content : space-between;
+  font-size       : 0.9rem;
+  color           : var(--textNoHave);
+  padding-bottom: 2rem;
 }
 
 
@@ -241,7 +251,7 @@ button.reset
   width            : 100%;
   display          : block;
   border           : none;
-  margin-top       :  3.5rem;
+  margin-top       : 3.5rem;
 }
 
 div.reset
@@ -258,5 +268,12 @@ div.reset
   margin-top      : 0.5em;
   color           : var(--textNoHave);
   justify-content : center;
+}
+
+/* CSS para destacar o elemento que recebeu o foco */
+.highlight-search {
+  border: 3px solid var(--dup);
+  box-shadow: 0 0 10px rgba(255, 235, 59, 0.7);
+  transition: all 0.2s ease-in-out;
 }
 

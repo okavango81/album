@@ -2,52 +2,67 @@
   <div class="tabs">
     <button *ngFor="let t of teams; let i = index"
             (click)="selectTeam(i)"
-            [class.active]="i === selectedTeamIndex">
-      {{ t.name }}
+            [class.active]="i === selectedTeamIndex"
+            [id]="'team-' + i"> {{ t.name }}
     </button>
   </div>
   <div class="search-wrapper">
-<!--    <span class="mag">&#128269;</span>-->
     <span class="mag">&telrec;</span>
     <input type="text"
-           placeholder="Buscar por número ou seleção..."
+           [type]="searchType === 'textAndNumber' ? 'text' : 'number'"
+           placeholder="Perquisar por..."
            #searchInput (click)="selectText($event)" (keyup.enter)="search(searchInput.value)" class="search-input">
   </div>
-</div>
+  <div class="radio-group">
+    <label>
+      <input type="radio"
+             name="searchOption"
+             value="textAndNumber"
+             [(ngModel)]="searchType">
+      Seleção ou número
+    </label>
 
-<div class="currentTeam">
-  <span>{{ teams[selectedTeamIndex].name }}</span>
-</div>
+    <label>
+      <input type="radio"
+             name="searchOption"
+             value="numberOnly"
+             [(ngModel)]="searchType">
+      Apenas por número
+    </label>
+  </div>
 
-<div class="grid">
-  <div class="card"
-       *ngFor="let fig of getRange(teams[selectedTeamIndex].start, teams[selectedTeamIndex].end); trackBy: trackByNumber"
-       (click)="onClick(fig)"
-       (mousedown)="press(fig)"
-       (mouseup)="release(fig)"
-       (mouseleave)="release(fig)"
-       (touchstart)="press(fig)"
-       (touchend)="release(fig)"
-       [class.has]="fig.has"
-       [class.dup]="fig.duplicates > 0"
-       [class.is-pressing]="fig.isPressing">
-    <span class="number">{{ fig.number }}</span>
+  <div class="currentTeam">
+    <span>{{ teams[selectedTeamIndex].name }}</span>
+  </div>
 
-    <span class="badge"
-          *ngIf="fig.duplicates > 0"
-          (click)="reduzir(fig, $event)">
+  <div class="grid">
+    <div class="card"
+         *ngFor="let fig of getRange(teams[selectedTeamIndex].start, teams[selectedTeamIndex].end);"
+         [id]="'fig-' + fig.number"  tabindex="0"              (click)="onClick(fig)"
+         (mousedown)="press(fig)"
+         (mouseup)="release(fig)"
+         (mouseleave)="release(fig)"
+         (touchstart)="press(fig)"
+         (touchend)="release(fig)"
+         [class.has]="fig.has"
+         [class.dup]="fig.duplicates > 0"
+         [class.is-pressing]="fig.isPressing">
+      <span class="number">{{ fig.number }}</span>
+
+      <span class="badge"
+            *ngIf="fig.duplicates > 0"
+            (click)="reduzir(fig, $event)">
         {{ fig.duplicates }}
       </span>
+    </div>
+  </div>
+  <div class="reset">
+    <!--    <button (click)="exportData()" disabled>Exportar</button>-->
+    <!--    <label class="import">-->
+    <!--      Importar-->
+    <!--      <input type="file" (change)="importData($event)" accept="application/json" disabled/>-->
+    <!--    </label>-->
+    <button (click)="resetAll()" class="reset">Resetar Álbum</button>
+    <span class="missing">Faltam {{ missingStickersCount }} figurinhas para completar o álbum</span>
   </div>
 </div>
-<div class="reset">
-  <!--    <button (click)="exportData()" disabled>Exportar</button>-->
-  <!--    <label class="import">-->
-  <!--      Importar-->
-  <!--      <input type="file" (change)="importData($event)" accept="application/json" disabled/>-->
-  <!--    </label>-->
-  <button (click)="resetAll()" class="reset">Resetar Álbum</button>
-  <span class="missing">Faltam {{ missingStickersCount }} figurinhas para completar o álbum</span>
-</div>
-
-

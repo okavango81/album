@@ -1,28 +1,28 @@
-import {Component, ChangeDetectorRef, TrackByFunction, ElementRef, ViewChild} from '@angular/core';
+import {Component, ChangeDetectorRef, ElementRef, ViewChild} from '@angular/core';
 import { Figurinha} from '../../models/figurinha/figurinha';
 import {Sticker} from '../../services/sticker';
 import {NgForOf, NgIf} from '@angular/common';
+import {FormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-album',
   imports: [
     NgIf,
-    NgForOf
+    NgForOf,
+    FormsModule
   ],
   templateUrl: './album.html',
   styleUrl: './album.scss',
 })
 export class Album {
-  trackByNumber(index: number, item: Figurinha) {
-    return item.number;
-  }
 
-  @ViewChild('searchInput') searchInput!: ElementRef<HTMLInputElement>;
 
   figurinhas: Figurinha[] = [];
   lastClick = 0;
   holdTimeout: any;
-  totalStickers: number = 0;
+  @ViewChild('searchInput') searchInput!: ElementRef<HTMLInputElement>;
+
+  searchType: 'textAndNumber' | 'numberOnly' = 'textAndNumber';
 
   teams = [
     { name: 'Alemanha', start: 380, end: 399 },
@@ -66,37 +66,150 @@ export class Album {
     this.figurinhas = this.stickerService.getAll();
   }
 
+  // search(query: string) {
+  //   if (!query) return;
+  //
+  //   const queryLowerCase = query.toLowerCase().trim();
+  //
+  //   // 1. Tentar buscar por NÚMERO
+  //   const figNumber = parseInt(queryLowerCase);
+  //   if (!isNaN(figNumber) && figNumber >= 1 && figNumber <= 670) {
+  //     // Se for um número válido, encontre a seleção à qual ele pertence
+  //     const foundIndexByNumber = this.teams.findIndex(team =>
+  //       figNumber >= team.start && figNumber <= team.end
+  //     );
+  //
+  //     if (foundIndexByNumber !== -1) {
+  //       this.selectedTeamIndex = foundIndexByNumber;
+  //       return;
+  //     }
+  //   }
+  //
+  //   // 2. Tentar buscar por NOME DA SELEÇÃO
+  //   const foundIndexByName = this.teams.findIndex(team =>
+  //     team.name.toLowerCase().includes(queryLowerCase)
+  //   );
+  //
+  //   if (foundIndexByName !== -1) {
+  //     this.selectedTeamIndex = foundIndexByName;
+  //     return;
+  //   }
+  //
+  //   // Se nada for encontrado
+  //   alert(`Figurinha ou seleção "${query}" não encontrada.`);
+  // }
+  // No seu component.ts
+
+  // search(query: string) {
+  //   if (!query) return;
+  //
+  //   const queryLowerCase = query.toLowerCase().trim();
+  //   let foundElementId: string | null = null; // Variável para armazenar o ID do elemento para foco
+  //
+  //   // 1. Tentar buscar por NÚMERO (Figurinha)
+  //   const figNumber = parseInt(queryLowerCase);
+  //   if (!isNaN(figNumber) && figNumber >= 1 && figNumber <= 670) {
+  //     // Encontra a seleção (time) à qual a figurinha pertence
+  //     const foundIndexByNumber = this.teams.findIndex(team =>
+  //       figNumber >= team.start && figNumber <= team.end
+  //     );
+  //
+  //     if (foundIndexByNumber !== -1) {
+  //       this.selectedTeamIndex = foundIndexByNumber;
+  //       // Define o ID da figurinha para rolar
+  //       foundElementId = `fig-${figNumber}`;
+  //     }
+  //   }
+  //
+  //   // 2. Tentar buscar por NOME DA SELEÇÃO (Time)
+  //   if (foundElementId === null) { // Só busca por nome se a busca por número falhou
+  //     const foundIndexByName = this.teams.findIndex(team =>
+  //       team.name.toLowerCase().includes(queryLowerCase)
+  //     );
+  //
+  //     if (foundIndexByName !== -1) {
+  //       this.selectedTeamIndex = foundIndexByName;
+  //       // Define o ID do botão de seleção (tab) para rolar
+  //       foundElementId = `team-${foundIndexByName}`;
+  //     }
+  //   }
+  //
+  //   // AÇÃO FINAL: Rolar a tela para o elemento encontrado
+  //   if (foundElementId) {
+  //     this.scrollToElement(foundElementId);
+  //     // Opcional: Limpar o input após a busca bem-sucedida
+  //     this.searchInput.nativeElement.value = "";
+  //   } else {
+  //     // Se nada for encontrado
+  //     alert(`Figurinha ou seleção "${query}" não encontrada.`);
+  //   }
+  // }
+
   search(query: string) {
     if (!query) return;
 
     const queryLowerCase = query.toLowerCase().trim();
+    let foundElementId: string | null = null;
+    let foundTeamIndex: number = -1; // Para armazenar o índice do time
 
-    // 1. Tentar buscar por NÚMERO
+    // 1. Tentar buscar por NÚMERO (Figurinha)
     const figNumber = parseInt(queryLowerCase);
     if (!isNaN(figNumber) && figNumber >= 1 && figNumber <= 670) {
-      // Se for um número válido, encontre a seleção à qual ele pertence
-      const foundIndexByNumber = this.teams.findIndex(team =>
+
+      // A. Encontrar a SELEÇÃO à qual a figurinha pertence
+      foundTeamIndex = this.teams.findIndex(team =>
         figNumber >= team.start && figNumber <= team.end
       );
 
-      if (foundIndexByNumber !== -1) {
-        this.selectedTeamIndex = foundIndexByNumber;
-        return;
+      if (foundTeamIndex !== -1) {
+        this.selectedTeamIndex = foundTeamIndex; // Seleciona o Tab
+
+        // B. Definir o ID da figurinha para o foco final
+        foundElementId = `fig-${figNumber}`;
       }
     }
 
-    // 2. Tentar buscar por NOME DA SELEÇÃO
-    const foundIndexByName = this.teams.findIndex(team =>
-      team.name.toLowerCase().includes(queryLowerCase)
-    );
+    // 2. Tentar buscar por NOME DA SELEÇÃO (Time)
+    if (foundElementId === null) {
+      foundTeamIndex = this.teams.findIndex(team =>
+        team.name.toLowerCase().includes(queryLowerCase)
+      );
 
-    if (foundIndexByName !== -1) {
-      this.selectedTeamIndex = foundIndexByName;
-      return;
+      if (foundTeamIndex !== -1) {
+        this.selectedTeamIndex = foundTeamIndex;
+        // Define o ID do botão de seleção (tab) para foco
+        foundElementId = `team-${foundTeamIndex}`;
+      }
     }
 
-    // Se nada for encontrado
-    alert(`Figurinha ou seleção "${query}" não encontrada.`);
+    // AÇÃO FINAL: Rolar a tela para o elemento encontrado
+    if (foundTeamIndex !== -1) {
+      const teamElementId = `team-${foundTeamIndex}`;
+
+      // 1º Passo de Rolagem: Rola a aba (tab) para a vista (se estiver escondida)
+      this.scrollToElement(teamElementId);
+
+      // 2º Passo de Rolagem: Se a busca foi por figurinha, rola para a figurinha após um pequeno delay
+      if (figNumber) {
+        // O delay é necessário para dar tempo ao Angular de renderizar o novo conteúdo do time
+        // e para o scroll do tab terminar.
+        setTimeout(() => {
+          if (foundElementId) {
+            this.scrollToElement(foundElementId);
+          }
+        }, 300);
+      } else if (foundElementId) {
+        // Se a busca foi por nome, rola imediatamente para o botão do time
+        this.scrollToElement(foundElementId);
+      }
+
+      // Limpa o input após a busca bem-sucedida
+      this.searchInput.nativeElement.value = "";
+
+    } else if (!foundElementId) {
+      // Se nada for encontrado
+      alert(`Figurinha ou seleção "${query}" não encontrada.`);
+    }
   }
 
   selectText(event: Event) {
@@ -225,5 +338,28 @@ export class Album {
   // Adicione uma propriedade para exibir no HTML
   get missingStickersCount(): number {
     return this.calculateMissingStickers();
+  }
+
+  scrollToElement(elementId: string): void {
+    const element = document.getElementById(elementId);
+    if (element) {
+      // Usa scrollIntoView para rolar suavemente até o elemento.
+      // 'block: center' tenta centralizar o elemento na tela, se possível.
+      element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+      // Opcional: Adiciona um foco visual temporário (ver CSS abaixo)
+      this.highlightElement(element);
+    } else {
+      console.warn(`Elemento com ID "${elementId}" não encontrado. Não é possível rolar.`);
+    }
+  }
+
+  // Opcional: Para dar um feedback visual (highlight)
+  highlightElement(element: HTMLElement): void {
+    // Esta lógica assume que você tem uma classe CSS '.highlight-search'
+    element.classList.add('highlight-search');
+    setTimeout(() => {
+      element.classList.remove('highlight-search');
+    }, 1500);
   }
 }
