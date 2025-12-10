@@ -1,5 +1,5 @@
 import {Component, ChangeDetectorRef, ElementRef, ViewChild} from '@angular/core';
-import { Figurinha} from '../../models/figurinha/figurinha';
+import {Figurinha} from '../../models/figurinha/figurinha';
 import {Sticker} from '../../services/sticker';
 import {NgForOf, NgIf} from '@angular/common';
 import {FormsModule} from '@angular/forms';
@@ -25,44 +25,45 @@ export class Album {
   searchType: 'textAndNumber' | 'numberOnly' = 'textAndNumber';
 
   teams = [
-    { name: 'Alemanha', start: 380, end: 399 },
-    { name: 'Arábia Saudita', start: 200, end: 219 },
-    { name: 'Argentina', start: 180, end: 199 },
-    { name: 'Austrália', start: 280, end: 299 },
-    { name: 'Bélgica', start: 420, end: 439 },
-    { name: 'Brasil', start: 520, end: 539 },
-    { name: 'Camarões', start: 560, end: 579 },
-    { name: 'Canadá', start: 440, end: 459 },
-    { name: 'Catar', start: 40, end: 59 },
-    { name: 'Coreia do Sul', start: 640, end: 659 },
-    { name: 'Costa Rica', start: 360, end: 379 },
-    { name: 'Croácia', start: 480, end: 499 },
-    { name: 'Dinamarca', start: 300, end: 319 },
-    { name: 'Equador', start: 60, end: 79 },
-    { name: 'Especiais/Estádios', start: 1, end: 39 },
-    { name: 'Espanha', start: 340, end: 359 },
-    { name: 'EUA', start: 160, end: 179 },
-    { name: 'França', start: 260, end: 279 },
-    { name: 'Gana', start: 600, end: 619 },
-    { name: 'Holanda', start: 100, end: 119 },
-    { name: 'Inglaterra', start: 120, end: 139 },
-    { name: 'Irã', start: 140, end: 159 },
-    { name: 'Japão', start: 400, end: 419 },
-    { name: 'Marrocos', start: 460, end: 479 },
-    { name: 'México', start: 220, end: 239 },
-    { name: 'Momentos Finais', start: 660, end: 670 },
-    { name: 'Polônia', start: 240, end: 259 },
-    { name: 'Portugal', start: 580, end: 599 },
-    { name: 'Senegal', start: 80, end: 99 },
-    { name: 'Sérvia', start: 500, end: 519 },
-    { name: 'Suíça', start: 540, end: 559 },
-    { name: 'Tunísia', start: 320, end: 339 },
-    { name: 'Uruguai', start: 620, end: 639 }
+    {name: 'Alemanha', start: 380, end: 399},
+    {name: 'Arábia Saudita', start: 200, end: 219},
+    {name: 'Argentina', start: 180, end: 199},
+    {name: 'Austrália', start: 280, end: 299},
+    {name: 'Bélgica', start: 420, end: 439},
+    {name: 'Brasil', start: 520, end: 539},
+    {name: 'Camarões', start: 560, end: 579},
+    {name: 'Canadá', start: 440, end: 459},
+    {name: 'Catar', start: 40, end: 59},
+    {name: 'Coreia do Sul', start: 640, end: 659},
+    {name: 'Costa Rica', start: 360, end: 379},
+    {name: 'Croácia', start: 480, end: 499},
+    {name: 'Dinamarca', start: 300, end: 319},
+    {name: 'Equador', start: 60, end: 79},
+    {name: 'Especiais/Estádios', start: 1, end: 39},
+    {name: 'Espanha', start: 340, end: 359},
+    {name: 'EUA', start: 160, end: 179},
+    {name: 'França', start: 260, end: 279},
+    {name: 'Gana', start: 600, end: 619},
+    {name: 'Holanda', start: 100, end: 119},
+    {name: 'Inglaterra', start: 120, end: 139},
+    {name: 'Irã', start: 140, end: 159},
+    {name: 'Japão', start: 400, end: 419},
+    {name: 'Marrocos', start: 460, end: 479},
+    {name: 'México', start: 220, end: 239},
+    {name: 'Momentos Finais', start: 660, end: 670},
+    {name: 'Polônia', start: 240, end: 259},
+    {name: 'Portugal', start: 580, end: 599},
+    {name: 'Senegal', start: 80, end: 99},
+    {name: 'Sérvia', start: 500, end: 519},
+    {name: 'Suíça', start: 540, end: 559},
+    {name: 'Tunísia', start: 320, end: 339},
+    {name: 'Uruguai', start: 620, end: 639}
   ];
 
   selectedTeamIndex = 0;
+  totalStickers: number = 670;
 
-  constructor(private stickerService: Sticker,   private cdr: ChangeDetectorRef) {
+  constructor(private stickerService: Sticker, private cdr: ChangeDetectorRef) {
     this.figurinhas = this.stickerService.getAll();
   }
 
@@ -241,7 +242,7 @@ export class Album {
   }
 
   doubleClick(fig: Figurinha) {
-    if(fig.duplicates)return;
+    if (fig.duplicates) return;
     if (fig.has && fig.duplicates === 0) {
       const confirmDesmarcar = confirm("Deseja desmarcar esta figurinha?");
       if (confirmDesmarcar) {
@@ -284,7 +285,7 @@ export class Album {
 
   exportData() {
     const json = this.stickerService.exportJson();
-    const blob = new Blob([json], { type: 'application/json' });
+    const blob = new Blob([json], {type: 'application/json'});
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
@@ -309,10 +310,16 @@ export class Album {
     reader.readAsText(file);
   }
 
+  get isEmptyAlbum(): boolean {
+    return this.missingStickersCount === this.totalStickers;
+  }
+
   resetAll() {
-    if (confirm('Deseja APAGAR TODO o álbum?')) {
-      this.stickerService.resetAll();
-      this.figurinhas = this.stickerService.getAll();
+    if (confirm('Isso removerá todas as figurinhas do álbum')) {
+      if (confirm("Você tem certeza disso?")) {
+        this.stickerService.resetAll();
+        this.figurinhas = this.stickerService.getAll();
+      }
     }
   }
 
@@ -340,12 +347,13 @@ export class Album {
     return this.calculateMissingStickers();
   }
 
+
   scrollToElement(elementId: string): void {
     const element = document.getElementById(elementId);
     if (element) {
       // Usa scrollIntoView para rolar suavemente até o elemento.
       // 'block: center' tenta centralizar o elemento na tela, se possível.
-      element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      element.scrollIntoView({behavior: 'smooth', block: 'center'});
 
       // Opcional: Adiciona um foco visual temporário (ver CSS abaixo)
       this.highlightElement(element);

@@ -10,7 +10,7 @@
     <span class="mag">&telrec;</span>
     <input type="text"
            [type]="searchType === 'textAndNumber' ? 'text' : 'number'"
-           placeholder="Perquisar por..."
+           placeholder="Procurar..."
            #searchInput (click)="selectText($event)" (keyup.enter)="search(searchInput.value)" class="search-input">
   </div>
   <div class="radio-group">
@@ -56,13 +56,7 @@
       </span>
     </div>
   </div>
-  <div class="reset">
-    <!--    <button (click)="exportData()" disabled>Exportar</button>-->
-    <!--    <label class="import">-->
-    <!--      Importar-->
-    <!--      <input type="file" (change)="importData($event)" accept="application/json" disabled/>-->
-    <!--    </label>-->
-    <button (click)="resetAll()" class="reset">Resetar Álbum</button>
-    <span class="missing">Faltam {{ missingStickersCount }} figurinhas para completar o álbum</span>
+  <div class="reset" *ngIf="!isEmptyAlbum">  <button (click)="resetAll()" class="reset">Resetar Álbum</button>
+    <span class="missing">Você tem: {{calculateTotalHas()}} | Faltam: {{ missingStickersCount }}</span>
   </div>
 </div>
