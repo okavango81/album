@@ -38,7 +38,7 @@
   <div class="grid">
     <div class="card"
          *ngFor="let fig of getRange(teams[selectedTeamIndex].start, teams[selectedTeamIndex].end);"
-         [id]="'fig-' + fig.number"  tabindex="0"              (click)="onClick(fig)"
+         [id]="'fig-' + fig.number" tabindex="0" (click)="onClick(fig)"
          (mousedown)="press(fig)"
          (mouseup)="release(fig)"
          (mouseleave)="release(fig)"
@@ -56,7 +56,23 @@
       </span>
     </div>
   </div>
-  <div class="reset" *ngIf="!isEmptyAlbum">  <button (click)="resetAll()" class="reset">Resetar Álbum</button>
-    <span class="missing">Você tem: {{calculateTotalHas()}} | Faltam: {{ missingStickersCount }}</span>
+  <div class="album-actions">
+    <div class="buttons-row">
+
+      @if (!isEmptyAlbum) {
+        <button (click)="resetAll()" class="reset2">Resetar Álbum</button>
+        <button (click)="exportData()" class="export">Exportar</button>
+      }
+
+
+        <label for="import-file" class="import-label" [class.fullRow]="isEmptyAlbum">Importar</label>
+        <input id="import-file" type="file" (change)="importData($event)" accept="application/json"
+               style="display: none;"/>
+
+    </div>
+
+    @if (!isEmptyAlbum) {
+      <span class="missing">Você tem: {{ calculateTotalHas() }} | Faltam: {{ missingStickersCount }}</span>
+    }
   </div>
 </div>

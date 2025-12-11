@@ -31,7 +31,7 @@
   :host
   {
     /* Escolha a largura desejada para o notebook (ex: 700px) */
-    max-width  : 600px;
+    max-width  : 580px;
 
     /* Aumenta o padding lateral em telas grandes para melhor visual */
     padding    : 50PX;
@@ -253,17 +253,17 @@
 
 button.reset
 {
-  padding          : 15px;
-  background       : none;
-  border-radius    : 2rem;
-  font-size        : 1rem;
-  color            : #111;
-  width            : 100%;
-  display          : block;
-  border           : 3px solid orange;
-  margin-top       : 3.5rem;
-  font-family      : var(--montSerrat);
-  font-weight      : 500;
+  padding       : 15px;
+  background    : none;
+  border-radius : 2rem;
+  font-size     : 1rem;
+  color         : #111;
+  width         : 100%;
+  display       : block;
+  border        : 3px solid orange;
+  margin-top    : 3.5rem;
+  font-family   : var(--montSerrat);
+  font-weight   : 500;
 
   &:hover
   {
@@ -296,3 +296,68 @@ div.reset
   transition : all 0.2s ease-in-out;
 }
 
+.album-actions
+{
+  // Configurações para o bloco inteiro (botões + mensagem)
+  padding    : 15px; // Espaçamento interno
+  margin-top : 20px;
+
+  // O Flexbox será aplicado APENAS à linha dos botões
+  // SCSS CORRETO (com center)
+  .buttons-row
+  {
+    display         : flex; // Habilita o Flexbox
+    gap             : 1rem; // Espaço entre os botões (10px entre Reset, Exportar e Importar)
+    align-items     : center;
+    justify-content : center; // **CORREÇÃO: Agrupa e centraliza os três itens**
+    margin-bottom   : 20px;
+
+  }
+
+  // Estilos comuns para todos os elementos que parecem botões
+  button,
+  .import-label
+  {
+    padding         : 12px 16px;
+    border          : none;
+    border-radius   : 2rem;
+    background      : none;
+    cursor          : pointer;
+    font-weight     : bold;
+    font-family     : var(--inter);
+    font-size       : 0.9rem;
+    white-space     : nowrap; // Essencial para evitar quebra de linha
+    transition      : background-color 0.2s;
+
+    //Para garantir que o label e o button se comportem da mesma forma no flexbox
+    display         : inline-flex;
+    align-items     : center;
+    justify-content : center;
+  }
+
+  // Cores específicas (baseadas na sua imagem)
+  .reset2
+  {
+    border : 2px solid var(--dup);
+    color  : var(--textHave);
+  }
+
+  .export
+  {
+    border : 2px solid var(--selected);
+    color  : var(--textHave);
+  }
+
+  .import-label
+  {
+    border : 2px solid var(--have);
+    color  : var(--textHave);
+  }
+
+  .fullRow
+  {
+    padding : 16px 16px;
+    width   : 100%;
+  }
+
+}

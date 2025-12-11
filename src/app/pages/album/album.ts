@@ -283,14 +283,42 @@ export class Album {
   }
 
 
+  // exportData() {
+  //   const json = this.stickerService.exportJson();
+  //   const blob = new Blob([json], {type: 'application/json'});
+  //   const url = URL.createObjectURL(blob);
+  //   const a = document.createElement('a');
+  //   a.href = url;
+  //   a.download = 'album-export.json';
+  //   a.click();
+  //   URL.revokeObjectURL(url);
+  // }
   exportData() {
+    // 1. Solicita o nome do arquivo ao usuário
+    // Oferece um nome padrão (default) para facilitar a vida do usuário.
+    const defaultFileName = 'meu ábum 1';
+    const fileName = prompt('Por favor, digite o nome do arquivo de exportação (Exemplo: meu album 1 ):', defaultFileName);
+
+    // 2. Verifica se o usuário cancelou a ação ou não digitou nada
+    if (!fileName) {
+      // Ação cancelada ou nome vazio, interrompe a função.
+      return;
+    }
+
     const json = this.stickerService.exportJson();
     const blob = new Blob([json], {type: 'application/json'});
     const url = URL.createObjectURL(blob);
+
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'album-export.json';
+
+    // 3. Usa o nome fornecido pelo usuário, garantindo a extensão .json
+    const finalFileName = fileName.endsWith('.json') ? fileName : `${fileName}.json`;
+    a.download = finalFileName;
+
     a.click();
+
+    // Limpeza
     URL.revokeObjectURL(url);
   }
 
@@ -322,9 +350,6 @@ export class Album {
       }
     }
   }
-
-  protected readonly HTMLInputElement = HTMLInputElement;
-
 // Método para calcular o total de figurinhas que você já possui
   calculateTotalHas(): number {
     return this.figurinhas.filter(fig => fig.has).length;
