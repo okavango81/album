@@ -1,38 +1,34 @@
 <div class="topbar">
+  <div class="navAlbum">
+    <div class="labelFileName">
+      <span>{{ fileName }}</span>
+    </div>
+  </div>
+
+  <div class="search-wrapper">
+    <span class="mag">&telrec;</span>
+    <input type=text
+           [type]="numberOnly ? 'number' : 'text'"
+           placeholder="Pesquisar..."
+           #searchInput (click)="selectText($event)" (keyup.enter)="search(searchInput.value)" class="search-input">
+  </div>
+  <div class="check-group">
+    <label>
+      <input type="checkbox"
+             name="numberOnly"
+             value="numberOnly"
+             [(ngModel)]="numberOnly"
+             [checked]="numberOnly"
+             (click)="textOrNumberOnly()"> Apenas por número
+    </label>
+  </div>
+
   <div class="tabs">
     <button *ngFor="let t of teams; let i = index"
             (click)="selectTeam(i)"
             [class.active]="i === selectedTeamIndex"
             [id]="'team-' + i"> {{ t.name }}
     </button>
-  </div>
-  <div class="search-wrapper">
-    <span class="mag">&telrec;</span>
-    <input type="text"
-           [type]="searchType === 'textAndNumber' ? 'text' : 'number'"
-           placeholder="Procurar..."
-           #searchInput (click)="selectText($event)" (keyup.enter)="search(searchInput.value)" class="search-input">
-  </div>
-  <div class="radio-group">
-    <label>
-      <input type="radio"
-             name="searchOption"
-             value="textAndNumber"
-             [(ngModel)]="searchType">
-      Seleção ou número
-    </label>
-
-    <label>
-      <input type="radio"
-             name="searchOption"
-             value="numberOnly"
-             [(ngModel)]="searchType">
-      Apenas por número
-    </label>
-  </div>
-
-  <div class="currentTeam">
-    <span>{{ teams[selectedTeamIndex].name }}</span>
   </div>
 
   <div class="grid">
@@ -60,19 +56,85 @@
     <div class="buttons-row">
 
       @if (!isEmptyAlbum) {
-        <button (click)="resetAll()" class="reset2">Resetar Álbum</button>
+        <button (click)="resetAll()" class="reset2">Apagar Álbum</button>
         <button (click)="exportData()" class="export">Exportar</button>
       }
 
 
-        <label for="import-file" class="import-label" [class.fullRow]="isEmptyAlbum">Importar</label>
-        <input id="import-file" type="file" (change)="importData($event)" accept="application/json"
-               style="display: none;"/>
+      <label for="import-file" class="import-label" [class.fullRow]="isEmptyAlbum">Importar</label>
+      <input id="import-file" type="file" (change)="importData($event)" accept="application/json"
+             style="display: none;"/>
 
     </div>
 
+    <!--    @if (!isEmptyAlbum) {-->
+    <!--      <span class="missing">Você tem: {{ calculateTotalHas() }} | Faltam: {{ missingStickersCount }}</span>-->
+    <!--    }-->
     @if (!isEmptyAlbum) {
-      <span class="missing">Você tem: {{ calculateTotalHas() }} | Faltam: {{ missingStickersCount }}</span>
+      <span class="missing">
+    <button class="has-button" (click)="openHasModal()">
+      Você tem: {{ calculateTotalHas() }}
+    </button>
+
+    | <button class="has-button duplicate-button" (click)="openDupModal()">
+      Repetidas: {{ calculateTotalDuplicates() }}
+    </button>
+
+    | Faltam: {{ missingStickersCount }}
+  </span>
     }
   </div>
 </div>
+
+@if (showHasModal) {
+  <div class="custom-modal-backdrop" (click)="closeHasModal()"></div>
+
+  <div class="custom-modal" role="dialog" aria-modal="true" aria-labelledby="hasModalTitle">
+    <div class="custom-modal-header">
+      <h3 id="hasModalTitle">Figurinhas que Você Tem ({{ calculateTotalHas() }})</h3>
+      <button type="button" class="close-button" (click)="closeHasModal()" aria-label="Fechar Modal">&times;</button>
+    </div>
+
+    <div class="custom-modal-body">
+      @for (group of getHasStickersGrouped(); track group.teamName) {
+        <div class="team-group">
+          <h4>{{ group.teamName }} ({{ group.stickers.length }} Figurinha{{ group.stickers.length > 1 ? 's' : '' }}
+            )</h4>
+          <p class="sticker-list">
+            {{ formatStickers(group.stickers) }}
+          </p>
+        </div>
+      }
+
+      @if (getHasStickersGrouped().length === 0) {
+        <p>Você ainda não marcou nenhuma figurinha como 'tem'.</p>
+      }
+    </div>
+  </div>
+}
+
+@if (showDupModal) {
+  <div class="custom-modal-backdrop" (click)="closeDupModal()"></div>
+
+  <div class="custom-modal" role="dialog" aria-modal="true" aria-labelledby="dupModalTitle">
+    <div class="custom-modal-header">
+      <h3 id="dupModalTitle">Figurinhas Repetidas (Total: {{ calculateTotalDuplicates() }})</h3>
+      <button type="button" class="close-button" (click)="closeDupModal()" aria-label="Fechar Modal">&times;</button>
+    </div>
+
+    <div class="custom-modal-body">
+      @for (group of getDupStickersGrouped(); track group.teamName) {
+        <div class="team-group">
+          <h4>{{ group.teamName }} ({{ group.stickers.length }} Figurinha{{ group.stickers.length > 1 ? 's' : '' }})</h4>
+          <p class="sticker-list">
+            {{ formatDuplicateStickers(group.stickers) }}
+          </p>
+        </div>
+      }
+
+      @if (getDupStickersGrouped().length === 0) {
+        <p>Você não tem nenhuma figurinha repetida.</p>
+      }
+    </div>
+  </div>
+}

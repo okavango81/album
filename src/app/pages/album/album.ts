@@ -16,13 +16,18 @@ import {FormsModule} from '@angular/forms';
 })
 export class Album {
 
-
+  FILE_NAME_STORAGE_KEY = 'album_file_name';
   figurinhas: Figurinha[] = [];
   lastClick = 0;
   holdTimeout: any;
   @ViewChild('searchInput') searchInput!: ElementRef<HTMLInputElement>;
 
-  searchType: 'textAndNumber' | 'numberOnly' = 'textAndNumber';
+  numberOnly: boolean = false;
+  fileName?: string = '';
+
+  textOrNumberOnly() {
+    this.numberOnly = !this.numberOnly;
+  }
 
   teams = [
     {name: 'Alemanha', start: 380, end: 399},
@@ -65,86 +70,12 @@ export class Album {
 
   constructor(private stickerService: Sticker, private cdr: ChangeDetectorRef) {
     this.figurinhas = this.stickerService.getAll();
+
+    const savedFileName = localStorage.getItem(this.FILE_NAME_STORAGE_KEY);
+    if (savedFileName) {
+      this.fileName = savedFileName;
+    }
   }
-
-  // search(query: string) {
-  //   if (!query) return;
-  //
-  //   const queryLowerCase = query.toLowerCase().trim();
-  //
-  //   // 1. Tentar buscar por NÚMERO
-  //   const figNumber = parseInt(queryLowerCase);
-  //   if (!isNaN(figNumber) && figNumber >= 1 && figNumber <= 670) {
-  //     // Se for um número válido, encontre a seleção à qual ele pertence
-  //     const foundIndexByNumber = this.teams.findIndex(team =>
-  //       figNumber >= team.start && figNumber <= team.end
-  //     );
-  //
-  //     if (foundIndexByNumber !== -1) {
-  //       this.selectedTeamIndex = foundIndexByNumber;
-  //       return;
-  //     }
-  //   }
-  //
-  //   // 2. Tentar buscar por NOME DA SELEÇÃO
-  //   const foundIndexByName = this.teams.findIndex(team =>
-  //     team.name.toLowerCase().includes(queryLowerCase)
-  //   );
-  //
-  //   if (foundIndexByName !== -1) {
-  //     this.selectedTeamIndex = foundIndexByName;
-  //     return;
-  //   }
-  //
-  //   // Se nada for encontrado
-  //   alert(`Figurinha ou seleção "${query}" não encontrada.`);
-  // }
-  // No seu component.ts
-
-  // search(query: string) {
-  //   if (!query) return;
-  //
-  //   const queryLowerCase = query.toLowerCase().trim();
-  //   let foundElementId: string | null = null; // Variável para armazenar o ID do elemento para foco
-  //
-  //   // 1. Tentar buscar por NÚMERO (Figurinha)
-  //   const figNumber = parseInt(queryLowerCase);
-  //   if (!isNaN(figNumber) && figNumber >= 1 && figNumber <= 670) {
-  //     // Encontra a seleção (time) à qual a figurinha pertence
-  //     const foundIndexByNumber = this.teams.findIndex(team =>
-  //       figNumber >= team.start && figNumber <= team.end
-  //     );
-  //
-  //     if (foundIndexByNumber !== -1) {
-  //       this.selectedTeamIndex = foundIndexByNumber;
-  //       // Define o ID da figurinha para rolar
-  //       foundElementId = `fig-${figNumber}`;
-  //     }
-  //   }
-  //
-  //   // 2. Tentar buscar por NOME DA SELEÇÃO (Time)
-  //   if (foundElementId === null) { // Só busca por nome se a busca por número falhou
-  //     const foundIndexByName = this.teams.findIndex(team =>
-  //       team.name.toLowerCase().includes(queryLowerCase)
-  //     );
-  //
-  //     if (foundIndexByName !== -1) {
-  //       this.selectedTeamIndex = foundIndexByName;
-  //       // Define o ID do botão de seleção (tab) para rolar
-  //       foundElementId = `team-${foundIndexByName}`;
-  //     }
-  //   }
-  //
-  //   // AÇÃO FINAL: Rolar a tela para o elemento encontrado
-  //   if (foundElementId) {
-  //     this.scrollToElement(foundElementId);
-  //     // Opcional: Limpar o input após a busca bem-sucedida
-  //     this.searchInput.nativeElement.value = "";
-  //   } else {
-  //     // Se nada for encontrado
-  //     alert(`Figurinha ou seleção "${query}" não encontrada.`);
-  //   }
-  // }
 
   search(query: string) {
     if (!query) return;
@@ -282,17 +213,6 @@ export class Album {
     this.figurinhas = this.stickerService.getAll(); // ✨ Adicionar aqui
   }
 
-
-  // exportData() {
-  //   const json = this.stickerService.exportJson();
-  //   const blob = new Blob([json], {type: 'application/json'});
-  //   const url = URL.createObjectURL(blob);
-  //   const a = document.createElement('a');
-  //   a.href = url;
-  //   a.download = 'album-export.json';
-  //   a.click();
-  //   URL.revokeObjectURL(url);
-  // }
   exportData() {
     // 1. Solicita o nome do arquivo ao usuário
     // Oferece um nome padrão (default) para facilitar a vida do usuário.
@@ -315,7 +235,23 @@ export class Album {
     // 3. Usa o nome fornecido pelo usuário, garantindo a extensão .json
     const finalFileName = fileName.endsWith('.json') ? fileName : `${fileName}.json`;
     a.download = finalFileName;
+// Nome original do arquivo (Ex: meu_album.json)
+    const originalName = finalFileName;
 
+    // 1. LIMPAR O NOME: Remove a extensão ".json" (ou ".JSON")
+    let baseName = originalName.replace(/\.json$/i, '');
+    // O modificador 'i' torna a busca case-insensitive (.json ou .JSON)
+    // O '$' garante que a substituição ocorra apenas no final da string.
+
+    // 2. Armazena o nome LIMPO na variável de classe e no localStorage
+    this.fileName = baseName;
+    localStorage.setItem(this.FILE_NAME_STORAGE_KEY, baseName);
+
+    // // 1. Armazena o nome na variável de classe
+    // this.fileName = finalFileName;
+    //
+    // // 2. PERSISTE: Salva o nome no localStorage
+    // localStorage.setItem(this.FILE_NAME_STORAGE_KEY, finalFileName);
     a.click();
 
     // Limpeza
@@ -325,7 +261,27 @@ export class Album {
   importData(event: any) {
     const file = event.target.files && event.target.files[0];
     if (!file) return;
+
+    // Nome original do arquivo (Ex: meu_album.json)
+    const originalName = file.name;
+
+    // 1. LIMPAR O NOME: Remove a extensão ".json" (ou ".JSON")
+    let baseName = originalName.replace(/\.json$/i, '');
+    // O modificador 'i' torna a busca case-insensitive (.json ou .JSON)
+    // O '$' garante que a substituição ocorra apenas no final da string.
+
+    // 2. Armazena o nome LIMPO na variável de classe e no localStorage
+    this.fileName = baseName;
+    localStorage.setItem(this.FILE_NAME_STORAGE_KEY, baseName);
+
+    // // 1. Armazena o nome na variável de classe
+    // this.fileName = file.name;
+    //
+    // // 2. PERSISTE: Salva o nome no localStorage
+    // localStorage.setItem(this.FILE_NAME_STORAGE_KEY, file.name);
+
     const reader = new FileReader();
+    // ... restante da lógica de importação
     reader.onload = () => {
       try {
         this.stickerService.importJson(reader.result as string);
@@ -338,6 +294,23 @@ export class Album {
     reader.readAsText(file);
   }
 
+  // importData(event: any) {
+  //   const file = event.target.files && event.target.files[0];
+  //   if (!file) return;
+  //   this.fileName = file.name;
+  //   const reader = new FileReader();
+  //   reader.onload = () => {
+  //     try {
+  //       this.stickerService.importJson(reader.result as string);
+  //       this.figurinhas = this.stickerService.getAll();
+  //       alert('Importado com sucesso');
+  //     } catch (e) {
+  //       alert('Falha ao importar: ' + e);
+  //     }
+  //   };
+  //   reader.readAsText(file);
+  // }
+
   get isEmptyAlbum(): boolean {
     return this.missingStickersCount === this.totalStickers;
   }
@@ -347,9 +320,15 @@ export class Album {
       if (confirm("Você tem certeza disso?")) {
         this.stickerService.resetAll();
         this.figurinhas = this.stickerService.getAll();
+        // 1. Armazena o nome na variável de classe
+        this.fileName = "Meu álbum (não salvo ainda)";
+
+        // 2. PERSISTE: Salva o nome no localStorage
+        localStorage.setItem(this.FILE_NAME_STORAGE_KEY, this.fileName);
       }
     }
   }
+
 // Método para calcular o total de figurinhas que você já possui
   calculateTotalHas(): number {
     return this.figurinhas.filter(fig => fig.has).length;
@@ -395,4 +374,105 @@ export class Album {
       element.classList.remove('highlight-search');
     }, 1500);
   }
+
+  protected readonly console = console;
+
+  // ... dentro da classe Album {...
+
+  // Nova propriedade para controlar a exibição do modal
+  showHasModal: boolean = false;
+
+  // para agrupar as figurinhas que o usuário TEM, por time
+  getHasStickersGrouped(): { teamName: string, stickers: Figurinha[] }[] {
+    const hasStickers = this.figurinhas.filter(fig => fig.has);
+
+    // Mapeia o resultado final
+    const groupedHas: { teamName: string, stickers: Figurinha[] }[] = [];
+
+    this.teams.forEach(team => {
+      // Filtra as figurinhas 'has' que estão no range deste time
+      const teamStickers = hasStickers.filter(fig =>
+        fig.number >= team.start && fig.number <= team.end
+      );
+
+      // Só adiciona ao agrupamento se o time tiver figurinhas
+      if (teamStickers.length > 0) {
+        groupedHas.push({
+          teamName: team.name,
+          stickers: teamStickers
+        });
+      }
+    });
+
+    return groupedHas;
+  }
+
+  // Métodos para abrir e fechar o modal
+  openHasModal() {
+    this.showHasModal = true;
+  }
+
+  closeHasModal() {
+    this.showHasModal = false;
+  }
+
+  // Formata a lista de figurinhas em uma string
+  formatStickers(stickers: Figurinha[]): string {
+    // Usa a lógica de map e join no TypeScript, onde é permitido
+    return stickers.map(fig => fig.number).join(', ');
+  }
+
+  // ... dentro da classe Album {
+
+  // NOVA PROPRIEDADE: Controla a exibição do modal de Repetidas
+  showDupModal: boolean = false;
+
+  // Calcula o total de figurinhas repetidas
+  calculateTotalDuplicates(): number {
+    // Reduz todos os contadores de 'duplicates' em um único número
+    return this.figurinhas.reduce((total, fig) => total + fig.duplicates, 0);
+  }
+
+  // Abre e fecha o modal de Repetidas
+  openDupModal() {
+    this.showDupModal = true;
+  }
+
+  closeDupModal() {
+    this.showDupModal = false;
+  }
+
+  // Obtém as figurinhas REPETIDAS agrupadas por time
+  getDupStickersGrouped(): { teamName: string, stickers: Figurinha[] }[] {
+    // Filtra apenas as figurinhas que têm mais de 0 repetições
+    const dupStickers = this.figurinhas.filter(fig => fig.duplicates > 0);
+
+    const groupedDup: { teamName: string, stickers: Figurinha[] }[] = [];
+
+    this.teams.forEach(team => {
+      const teamStickers = dupStickers.filter(fig =>
+        fig.number >= team.start && fig.number <= team.end
+      );
+
+      if (teamStickers.length > 0) {
+        groupedDup.push({
+          teamName: team.name,
+          stickers: teamStickers
+        });
+      }
+    });
+
+    return groupedDup;
+  }
+
+  //Formata a lista de figurinhas repetidas para inclusão da contagem (Ex: 12 (2), 15 (1))
+  formatDuplicateStickers(stickers: Figurinha[]): string {
+    return stickers
+      .map(fig => {
+        // Inclui a contagem de duplicates em parênteses
+        return `${fig.number} (${fig.duplicates})`;
+      })
+      .join(', ');
+  }
+
 }
