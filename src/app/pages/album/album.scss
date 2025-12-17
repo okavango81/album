@@ -1,23 +1,534 @@
+//:host
+//{
+//  display       : block;
+//  padding       : 16px;
+//  background    : #fafafa;
+//  min-height    : 100vh;
+//  box-sizing    : border-box;
+//  margin        : 0 auto;
+//  max-width     : 100%;
+//  --bg          : #ebebeb;
+//  --card        : #eee;
+//  --have        : #00b894;
+//  --textNoHave  : #727272;
+//  --textHave    : #444;
+//  --dup         : #ffc048;
+//  --accent      : #254b70;
+//  --selected    : #2d7fd9;
+//  --currentTeam : #145f14;
+//  --montSerrat  : "Montserrat", sans-serif;
+//  --inter       : "Inter", sans-serif;
+//}
+//
+//
+///* ---------------------------------------------------- */
+///* MEDIA QUERY PARA TELAS GRANDES (NOTEBOOKS/DESKTOPS) */
+///* ---------------------------------------------------- */
+//
+//@media (min-width : 720px)
+//{
+//  /* Define a largura máxima quando a tela for maior que 1024px */
+//  :host
+//  {
+//    /* Escolha a largura desejada para o notebook (ex: 700px) */
+//    max-width  : 580px;
+//
+//    /* Aumenta o padding lateral em telas grandes para melhor visual */
+//    padding    : 50PX;
+//
+//    /* Aplica sombra para dar a sensação de "cartão" centralizado */
+//    box-shadow : 50px 20px 100px rgb(177, 177, 177);
+//  }
+//  div.tabs
+//  {
+//    margin-bottom : 40px;
+//  }
+//
+//  /* Opcional: Ajuste o espaçamento da grade para telas grandes */
+//  .grid
+//  {
+//    /* Exemplo: Mantenha 5 colunas, mas ajuste o gap se desejar */
+//    gap : 15px;
+//  }
+//  button.reset
+//  {
+//    width : 50%;
+//  }
+//  .missing
+//  {
+//    padding-bottom : 50px;
+//  }
+//  .search-wrapper
+//  {
+//    margin-top : 1rem;
+//  }
+//}
+//
+//.navAlbum
+//{
+//  /* 1. Torna o elemento fixo na janela de visualização */
+//  position         : fixed;
+//
+//  /* 2. Define a posição vertical no topo */
+//  top              : 0;
+//
+//  /* 3. Define a posição horizontal (esquerda) */
+//  left             : 0;
+//
+//  /* 4. Faz com que ele ocupe 100% da largura */
+//  width            : 100%;
+//
+//  /* 5. Estilos de aparência (opcional, mas recomendado para contraste) */
+//  background-image : linear-gradient(to left, #7700b1, rgb(61, 0, 90), #170a55);
+//  color            : white; /* Cor do texto */
+//  padding          : 20px 0; /* Espaçamento interno (topo/base) */
+//  z-index          : 1000; /* Garante que fique acima de outros elementos */
+//
+//}
+//
+///* Exemplo de estilo para o conteúdo interno, só para organizar */
+//.labelFileName
+//{
+//  display         : flex;
+//  justify-content : center;
+//  font-weight     : 600;
+//  font-family     : var(--montSerrat);
+//  text-transform  : uppercase;
+//}
+//
+//.topbar
+//{
+//  display         : block;
+//  gap             : 4px;
+//  align-items     : center;
+//  justify-content : space-between;
+//  flex-wrap       : wrap;
+//}
+//
+//.search-wrapper
+//{
+//  position   : relative;
+//  margin-top : 6rem;
+//}
+//
+//.mag
+//{
+//  position       : absolute;
+//  top            : 36%;
+//  left           : 0.7rem;
+//  transform      : translateY(-50%) scaleX(-1);
+//  font-size      : 2.5rem;
+//  pointer-events : none;
+//  color          : var(--textNoHave);
+//  font-weight    : 300;
+//}
+//
+//.search-input
+//{
+//  padding       : 16px 45px;
+//  border-radius : 0.5rem;
+//  border        : 1px solid #ccc;
+//  width         : 100%; /* Ocupa todo o espaço disponível */
+//  margin-bottom : 10px; /* Espaçamento antes dos botões de abas */
+//  box-sizing    : border-box;
+//  font-size     : 1rem;
+//  font-weight   : 500;
+//  color         : var(--textNoHave);
+//  font-family   : var(--inter);
+//}
+//
+//.check-group
+//{
+//  display         : flex;
+//  justify-content : start;
+//  font-size       : 0.85rem;
+//  color           : var(--textNoHave);
+//  padding-bottom  : 2rem;
+//  font-family     : var(--montSerrat);
+//}
+//
+//
+//.tabs
+//{
+//  /* Mantenha o flex para as abas */
+//  display        : flex;
+//  gap            : 6px;
+//  overflow-x     : auto;
+//  padding-bottom : 6px;
+//  margin-bottom  : 18px;
+//}
+//
+///* Certifique-se de que as ações fiquem no final da linha */
+//.actions
+//{
+//  display         : flex;
+//  gap             : 8px;
+//  align-items     : center;
+//  justify-content : flex-end; /* Alinha à direita, se houver espaço */
+//}
+//
+//.tabs button
+//{
+//  margin        : 8px;
+//  padding       : 6px 40px;
+//  border-radius : 2rem;
+//  border        : none;
+//  background    : var(--card);
+//  font-weight   : 500;
+//  cursor        : pointer;
+//  font-family   : var(--montSerrat);
+//  color         : var(--textNoHave);
+//}
+//
+//.tabs .active
+//{
+//  background  : var(--selected);
+//  color       : var(--bg);
+//  font-family : var(--montSerrat);
+//  font-weight : 500;
+//}
+//
+//.actions
+//{
+//  display     : flex;
+//  gap         : 6px;
+//  align-items : center;
+//}
+//
+//.currentTeam
+//{
+//  padding     : 18px 0;
+//  font-size   : 1rem;
+//  font-weight : 700;
+//  color       : var(--selected);
+//  font-family : var(--montSerrat);
+//}
+//
+//.actions button, .actions .import
+//{
+//  padding       : 8px 10px;
+//  border-radius : 6px;
+//  border        : none;
+//  background    : #eee;
+//  font-weight   : 600;
+//}
+//
+//.actions .import input
+//{
+//  display : none;
+//}
+//
+//.grid
+//{
+//  display               : grid;
+//  grid-template-columns : repeat(5, 1fr);
+//  gap                   : 10px;
+//  margin-bottom         : 2rem;
+//}
+//
+//.card
+//{
+//  height        : 70px;
+//  border-radius : 0.5rem;
+//  background    : var(--card);
+//  font-size     : 18px;
+//  font-weight   : 500;
+//  position      : relative;
+//  user-select   : none;
+//  box-shadow    : 0 1px 2px rgba(0, 0, 0, 0.08);
+//  color         : var(--textNoHave);
+//  cursor        : pointer;
+//  border        : 2px solid transparent;
+//  font-family   : var(--inter);
+//
+//  &:hover
+//  {
+//    border-color : var(--selected);
+//    transform    : scale(1.1);
+//  }
+//}
+//
+//.card.has
+//{
+//  background : var(--have);
+//  color      : var(--bg);
+//}
+//
+//.card.dup
+//{
+//  background : #ffc700;
+//  color      : var(--textHave);
+//}
+//
+//.card.is-pressing
+//{
+//  transform  : scale(0.98);
+//  transition : transform 0.1s ease-out;
+//}
+//
+//.card .number
+//{
+//  position : absolute;
+//  top      : 2.5em;
+//  right    : 5px;
+//}
+//
+//.badge
+//{
+//  position      : absolute;
+//  background    : #0008;
+//  color         : white;
+//  border-radius : 10%;
+//  padding       : 0.5rem;
+//  font-size     : 14px;
+//}
+//
+//.reset
+//{
+//  margin-top : 30px;
+//}
+//
+//button.reset
+//{
+//  padding       : 15px;
+//  background    : none;
+//  border-radius : 2rem;
+//  font-size     : 1rem;
+//  color         : #111;
+//  width         : 100%;
+//  display       : block;
+//  border        : 3px solid orange;
+//  margin-top    : 3.5rem;
+//  font-family   : var(--montSerrat);
+//  font-weight   : 500;
+//
+//  &:hover
+//  {
+//    cursor : pointer;
+//  }
+//}
+//
+//div.reset
+//{
+//  margin-top : 3rem;
+//}
+//
+//
+//.missing
+//{
+//  display         : flex;
+//  font-size       : 1rem;
+//  font-weight     : 500;
+//  margin-top      : 0.5em;
+//  color           : var(--textNoHave);
+//  justify-content : center;
+//  font-family     : var(--inter);
+//}
+//
+///* CSS para destacar o elemento que recebeu o foco */
+//.highlight-search
+//{
+//  border     : 3px solid var(--dup);
+//  box-shadow : 0 0 10px rgba(255, 235, 59, 0.7);
+//  transition : all 0.2s ease-in-out;
+//}
+//
+//.album-actions
+//{
+//  // Configurações para o bloco inteiro (botões + mensagem)
+//  padding    : 15px; // Espaçamento interno
+//  margin-top : 20px;
+//
+//  // O Flexbox será aplicado APENAS à linha dos botões
+//  // SCSS CORRETO (com center)
+//  .buttons-row
+//  {
+//    display         : flex; // Habilita o Flexbox
+//    gap             : 1rem; // Espaço entre os botões (10px entre Reset, Exportar e Importar)
+//    align-items     : center;
+//    justify-content : center; // **CORREÇÃO: Agrupa e centraliza os três itens**
+//    margin-bottom   : 20px;
+//
+//  }
+//
+//  // Estilos comuns para todos os elementos que parecem botões
+//  button,
+//  .import-label
+//  {
+//    padding         : 12px 16px;
+//    border          : none;
+//    border-radius   : 2rem;
+//    background      : none;
+//    cursor          : pointer;
+//    font-weight     : bold;
+//    font-family     : var(--inter);
+//    font-size       : 0.9rem;
+//    white-space     : nowrap; // Essencial para evitar quebra de linha
+//    transition      : background-color 0.2s;
+//
+//    //Para garantir que o label e o button se comportem da mesma forma no flexbox
+//    display         : inline-flex;
+//    align-items     : center;
+//    justify-content : center;
+//  }
+//
+//  // Cores específicas (baseadas na sua imagem)
+//  .reset2
+//  {
+//    border : 2px solid var(--dup);
+//    color  : var(--textHave);
+//  }
+//
+//  .export
+//  {
+//    border : 2px solid var(--selected);
+//    color  : var(--textHave);
+//  }
+//
+//  .import-label
+//  {
+//    border : 2px solid var(--have);
+//    color  : var(--textHave);
+//  }
+//
+//  .fullRow
+//  {
+//    padding : 16px 16px;
+//    width   : 100%;
+//  }
+//
+//  /* Estilo para fazer o <span> parecer um botão clicável */
+//  .has-button {
+//    background: none;
+//    border: none;
+//    color: inherit; /* Mantém a cor do texto pai */
+//    padding: 0;
+//    margin: 0;
+//    font: inherit;
+//    cursor: pointer;
+//    text-decoration: underline; /* Para indicar que é clicável */
+//    /* Remover qualquer estilo de foco padrão se necessário */
+//    outline: none;
+//  }
+//
+//  /* ------------------ ESTILOS DO MODAL ------------------ */
+//
+//  /* Fundo escuro (Backdrop) */
+//  .custom-modal-backdrop {
+//    position: fixed;
+//    top: 0;
+//    left: 0;
+//    width: 100%;
+//    height: 100%;
+//    background-color: rgba(0, 0, 0, 0.7); /* Fundo semi-transparente escuro */
+//    z-index: 1040; /* Abaixo do modal, mas acima do conteúdo */
+//  }
+//
+//  /* Container principal do Modal */
+//  .custom-modal {
+//    position: fixed;
+//    top: 50%;
+//    left: 50%;
+//    transform: translate(-50%, -50%); /* Centraliza perfeitamente */
+//
+//    width: 90%; /* Largura em telas menores */
+//    max-width: 600px; /* Largura máxima em telas maiores */
+//    max-height: 80vh; /* Altura máxima da tela (80% da altura da viewport) */
+//
+//    background-color: #fff;
+//    border-radius: 8px;
+//    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+//    z-index: 1050; /* Garante que ele fique acima de tudo */
+//    display: flex;
+//    flex-direction: column; /* Organiza header e body em coluna */
+//  }
+//
+//  /* Cabeçalho */
+//  .custom-modal-header {
+//    padding: 15px;
+//    border-bottom: 1px solid #ddd;
+//    display: flex;
+//    justify-content: space-between;
+//    align-items: center;
+//    background-color: #f7f7f7;
+//    border-top-left-radius: 8px;
+//    border-top-right-radius: 8px;
+//  }
+//
+//  .custom-modal-header h3 {
+//    margin: 0;
+//    color: #333;
+//  }
+//
+//  /* Botão de Fechar */
+//  .close-button {
+//    background: none;
+//    border: none;
+//    font-size: 1.5rem;
+//    font-weight: bold;
+//    cursor: pointer;
+//    color: #333;
+//  }
+//
+//  /* Corpo do Modal com Scroll */
+//  .custom-modal-body {
+//    padding: 20px;
+//    overflow-y: auto; /* ESSENCIAL: Habilita o scroll vertical no conteúdo */
+//    flex-grow: 1; /* Permite que o body preencha o espaço restante e force o scroll */
+//  }
+//
+//  /* Estilos de conteúdo dentro do body */
+//  .team-group {
+//    margin-bottom: 15px;
+//    padding: 10px;
+//    border-left: 5px solid var(--montSerrat, #555); /* Exemplo de cor para destaque */
+//    background-color: #f9f9f9;
+//  }
+//
+//  .team-group h4 {
+//    margin-top: 0;
+//    margin-bottom: 5px;
+//    color: #007bff; /* Cor de destaque para o nome do time */
+//  }
+//
+//  .sticker-list {
+//    font-size: 1rem;
+//    line-height: 1.6;
+//    word-break: break-all; /* Garante que os números longos quebrem a linha */
+//  }
+//
+//  /* Exemplo de estilo opcional para o botão de repetidas */
+//  .duplicate-button {
+//    /* Pode-se adicionar uma cor diferente para destaque, por exemplo */
+//    color: #ffc107; /* Amarelo/Laranja para indicar algo extra/duplicado */
+//    /* text-decoration: none; */ /* Se não quiser o sublinhado */
+//  }
+//
+//}
+
 :host
 {
-  display       : block;
-  padding       : 16px;
-  background    : #fafafa;
-  min-height    : 100vh;
-  box-sizing    : border-box;
-  margin        : 0 auto;
-  max-width     : 100%;
-  --bg          : #ebebeb;
-  --card        : #eee;
-  --have        : #00b894;
-  --textNoHave  : #727272;
-  --textHave    : #444;
-  --dup         : #ffc048;
-  --accent      : #254b70;
-  --selected    : #2d7fd9;
-  --currentTeam : #145f14;
-  --montSerrat  : "Montserrat", sans-serif;
-  --inter       : "Inter", sans-serif;
+  display      : block;
+  padding      : 16px;
+  background   : #ebebeb;
+  min-height   : 100vh;
+  box-sizing   : border-box;
+  margin       : 0 auto;
+  max-width    : 100%;
+  --bg         : #ebebeb;
+  --card       : #eee;
+  --have       : #34c759;
+  --textNoHave : #727272;
+  --textHave   : #fcfcfc;
+  --dup        : #ff9f0a;
+  --selected   : #0a84ff;
+  --light      : #ffffff;
+  --danger     : #ff453a;
+  --purple     : #bf5af2;
+  --montSerrat : "Montserrat", sans-serif;
+  --inter      : "Inter", sans-serif;
+  overflow     : hidden;
+
 }
 
 
@@ -25,7 +536,7 @@
 /* MEDIA QUERY PARA TELAS GRANDES (NOTEBOOKS/DESKTOPS) */
 /* ---------------------------------------------------- */
 
-@media (min-width : 720px)
+@media (min-width : 480px)
 {
   /* Define a largura máxima quando a tela for maior que 1024px */
   :host
@@ -54,46 +565,45 @@
   {
     width : 50%;
   }
-  .missing
-  {
-    padding-bottom : 50px;
-  }
+
   .search-wrapper
   {
     margin-top : 1rem;
   }
 }
 
-.navAlbum
-{
-  /* 1. Torna o elemento fixo na janela de visualização */
-  position         : fixed;
-
-  /* 2. Define a posição vertical no topo */
-  top              : 0;
-
-  /* 3. Define a posição horizontal (esquerda) */
-  left             : 0;
-
-  /* 4. Faz com que ele ocupe 100% da largura */
-  width            : 100%;
-
-  /* 5. Estilos de aparência (opcional, mas recomendado para contraste) */
-  background-image : linear-gradient(to left, #7700b1, rgb(61, 0, 90), #170a55);
-  color            : white; /* Cor do texto */
-  padding          : 20px 0; /* Espaçamento interno (topo/base) */
-  z-index          : 1000; /* Garante que fique acima de outros elementos */
-
-}
+//.navAlbum
+//{
+//  /* 1. Torna o elemento fixo na janela de visualização */
+//  position         : fixed;
+//
+//  /* 2. Define a posição vertical no topo */
+//  top              : 0;
+//
+//  /* 3. Define a posição horizontal (esquerda) */
+//  left             : 0;
+//
+//  /* 4. Faz com que ele ocupe 100% da largura */
+//  width            : 100%;
+//
+//  /* 5. Estilos de aparência (opcional, mas recomendado para contraste) */
+//  background-image : linear-gradient(to left, #7700b1, rgb(61, 0, 90), #170a55);
+//  color            : white; /* Cor do texto */
+//  padding          : 20px 0; /* Espaçamento interno (topo/base) */
+//  z-index          : 1000; /* Garante que fique acima de outros elementos */
+//
+//}
 
 /* Exemplo de estilo para o conteúdo interno, só para organizar */
 .labelFileName
 {
   display         : flex;
   justify-content : center;
-  font-weight     : 600;
-  font-family     : var(--montSerrat);
+  font-weight     : 700;
+  font-family     : var(--inter);
   text-transform  : uppercase;
+  margin-top      : 0.25rem;
+  font-size       : 0.95rem;
 }
 
 .topbar
@@ -108,7 +618,7 @@
 .search-wrapper
 {
   position   : relative;
-  margin-top : 6rem;
+  margin-top : 5rem;
 }
 
 .mag
@@ -125,16 +635,16 @@
 
 .search-input
 {
-  padding       : 16px 45px;
-  border-radius : 0.5rem;
-  border        : 1px solid #ccc;
-  width         : 100%; /* Ocupa todo o espaço disponível */
-  margin-bottom : 10px; /* Espaçamento antes dos botões de abas */
-  box-sizing    : border-box;
-  font-size     : 1rem;
-  font-weight   : 500;
-  color         : var(--textNoHave);
-  font-family   : var(--inter);
+  padding          : 16px 45px;
+  border-radius    : 0.8rem;
+  width            : 100%; /* Ocupa todo o espaço disponível */
+  margin-bottom    : 10px; /* Espaçamento antes dos botões de abas */
+  box-sizing       : border-box;
+  font-size        : 1rem;
+  font-weight      : 500;
+  color            : var(--textNoHave);
+  font-family      : var(--inter);
+  background-color : #fafafa;
 }
 
 .check-group
@@ -145,17 +655,6 @@
   color           : var(--textNoHave);
   padding-bottom  : 2rem;
   font-family     : var(--montSerrat);
-}
-
-
-.tabs
-{
-  /* Mantenha o flex para as abas */
-  display        : flex;
-  gap            : 6px;
-  overflow-x     : auto;
-  padding-bottom : 6px;
-  margin-bottom  : 18px;
 }
 
 /* Certifique-se de que as ações fiquem no final da linha */
@@ -169,23 +668,35 @@
 
 .tabs button
 {
-  margin        : 8px;
-  padding       : 6px 40px;
-  border-radius : 2rem;
-  border        : none;
-  background    : var(--card);
-  font-weight   : 500;
-  cursor        : pointer;
+  padding       : 0.95rem 2rem;
   font-family   : var(--montSerrat);
+  font-weight   : 500;
+  border-radius : 2rem;
+  background    : linear-gradient(
+      180deg,
+      rgba(var(--card), 0.28),
+      rgba(var(--card), 0.18)
+  );
+
+  min-width     : 12rem;
+  font-size     : 0.85rem;
   color         : var(--textNoHave);
+  border        : 1px solid rgba(120, 120, 120, 0.35);
 }
 
 .tabs .active
 {
-  background  : var(--selected);
-  color       : var(--bg);
   font-family : var(--montSerrat);
   font-weight : 500;
+  background  : linear-gradient(
+      180deg,
+      rgba(0, 122, 255, 0.28),
+      rgba(0, 122, 255, 0.18)
+  );
+
+  min-width   : 12rem;
+  color       : var(--selected);
+  border      : 2px solid rgba(0, 122, 255, 0.35);
 }
 
 .actions
@@ -228,18 +739,21 @@
 
 .card
 {
-  height        : 70px;
-  border-radius : 0.5rem;
-  background    : var(--card);
-  font-size     : 18px;
-  font-weight   : 500;
-  position      : relative;
-  user-select   : none;
-  box-shadow    : 0 1px 2px rgba(0, 0, 0, 0.08);
-  color         : var(--textNoHave);
-  cursor        : pointer;
-  border        : 2px solid transparent;
-  font-family   : var(--inter);
+  height           : 70px;
+  border-radius    : 0.5rem;
+  color            : var(--card);
+  border           : 1px solid rgba(var(--card), 0.35);
+  font-weight      : 700;
+  font-size        : 18px;
+  font-weight      : 500;
+  position         : relative;
+  user-select      : none;
+  box-shadow       : 0 1px 2px rgba(0, 0, 0, 0.2);
+  color            : var(--textNoHave);
+  cursor           : pointer;
+  border           : 2px solid transparent;
+  font-family      : var(--inter);
+  background-color : rgba(91, 91, 91, 0.15);
 
   &:hover
   {
@@ -250,14 +764,26 @@
 
 .card.has
 {
-  background : var(--have);
-  color      : var(--bg);
+  background  : linear-gradient(
+      180deg,
+      rgba(52, 199, 89, 0.28),
+      rgba(52, 199, 89, 0.18)
+  );
+  color       : var(--have);
+  border      : 1px solid rgba(52, 199, 89, 0.35);
+  font-weight : 700;
 }
 
 .card.dup
 {
-  background : #ffc700;
-  color      : var(--textHave);
+  background : linear-gradient(
+      180deg,
+      rgba(255, 159, 10, 0.28),
+      rgba(255, 159, 10, 0.18)
+  );
+
+  color      : var(--dup);
+  border     : 1px solid rgba(255, 159, 10, 0.35);
 }
 
 .card.is-pressing
@@ -317,12 +843,11 @@ div.reset
 .missing
 {
   display         : flex;
-  font-size       : 1rem;
   font-weight     : 500;
   margin-top      : 0.5em;
-  color           : var(--textNoHave);
+  color           : var(--card);
   justify-content : center;
-  font-family     : var(--inter);
+  font-family     : var(--montSerrat);
 }
 
 /* CSS para destacar o elemento que recebeu o foco */
@@ -352,8 +877,7 @@ div.reset
   }
 
   // Estilos comuns para todos os elementos que parecem botões
-  button,
-  .import-label
+  button
   {
     padding         : 12px 16px;
     border          : none;
@@ -385,123 +909,561 @@ div.reset
     color  : var(--textHave);
   }
 
-  .import-label
-  {
-    border : 2px solid var(--have);
-    color  : var(--textHave);
-  }
-
-  .fullRow
-  {
-    padding : 16px 16px;
-    width   : 100%;
-  }
 
   /* Estilo para fazer o <span> parecer um botão clicável */
-  .has-button {
-    background: none;
-    border: none;
-    color: inherit; /* Mantém a cor do texto pai */
-    padding: 0;
-    margin: 0;
-    font: inherit;
-    cursor: pointer;
-    text-decoration: underline; /* Para indicar que é clicável */
+  .has-button
+  {
+    background      : none;
+    border          : none;
+    color           : inherit; /* Mantém a cor do texto pai */
+    padding         : 0;
+    margin          : 0;
+    font            : inherit;
+    cursor          : pointer;
+    text-decoration : underline; /* Para indicar que é clicável */
     /* Remover qualquer estilo de foco padrão se necessário */
-    outline: none;
+    outline         : none;
   }
 
   /* ------------------ ESTILOS DO MODAL ------------------ */
 
   /* Fundo escuro (Backdrop) */
-  .custom-modal-backdrop {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7); /* Fundo semi-transparente escuro */
-    z-index: 1040; /* Abaixo do modal, mas acima do conteúdo */
+  .custom-modal-backdrop
+  {
+    position         : fixed;
+    top              : 0;
+    left             : 0;
+    width            : 100%;
+    height           : 100%;
+    background-color : rgba(10, 10, 10, 0.1); /* Fundo semi-transparente escuro */
+    z-index          : 1040; /* Abaixo do modal, mas acima do conteúdo */
   }
 
   /* Container principal do Modal */
-  .custom-modal {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%); /* Centraliza perfeitamente */
+  .custom-modal
+  {
+    position         : fixed;
+    top              : 50%;
+    left             : 50%;
+    transform        : translate(-50%, -50%); /* Centraliza perfeitamente */
 
-    width: 90%; /* Largura em telas menores */
-    max-width: 600px; /* Largura máxima em telas maiores */
-    max-height: 80vh; /* Altura máxima da tela (80% da altura da viewport) */
+    width            : 90%; /* Largura em telas menores */
+    max-width        : 600px; /* Largura máxima em telas maiores */
+    max-height       : 80vh; /* Altura máxima da tela (80% da altura da viewport) */
 
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-    z-index: 1050; /* Garante que ele fique acima de tudo */
-    display: flex;
-    flex-direction: column; /* Organiza header e body em coluna */
+    background-color : #fff;
+    border-radius    : 8px;
+    box-shadow       : 0 5px 15px rgba(0, 0, 0, 0.11);
+    z-index          : 1050; /* Garante que ele fique acima de tudo */
+    display          : flex;
+    flex-direction   : column; /* Organiza header e body em coluna */
   }
 
   /* Cabeçalho */
-  .custom-modal-header {
-    padding: 15px;
-    border-bottom: 1px solid #ddd;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #f7f7f7;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
+  .custom-modal-header
+  {
+    padding                 : 15px;
+    border-bottom           : 1px solid #ddd;
+    display                 : flex;
+    justify-content         : space-between;
+    align-items             : center;
+    background-color        : #f7f7f7;
+    border-top-left-radius  : 8px;
+    border-top-right-radius : 8px;
   }
 
-  .custom-modal-header h3 {
-    margin: 0;
-    color: #333;
+  .custom-modal-header h3
+  {
+    margin : 0;
+    color  : #333;
   }
 
-  /* Botão de Fechar */
-  .close-button {
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    font-weight: bold;
-    cursor: pointer;
-    color: #333;
-  }
 
   /* Corpo do Modal com Scroll */
-  .custom-modal-body {
-    padding: 20px;
-    overflow-y: auto; /* ESSENCIAL: Habilita o scroll vertical no conteúdo */
-    flex-grow: 1; /* Permite que o body preencha o espaço restante e force o scroll */
+  .custom-modal-body
+  {
+    padding    : 20px;
+    overflow-y : auto; /* ESSENCIAL: Habilita o scroll vertical no conteúdo */
+    flex-grow  : 1; /* Permite que o body preencha o espaço restante e force o scroll */
   }
 
   /* Estilos de conteúdo dentro do body */
-  .team-group {
-    margin-bottom: 15px;
-    padding: 10px;
-    border-left: 5px solid var(--montSerrat, #555); /* Exemplo de cor para destaque */
-    background-color: #f9f9f9;
+  .team-group
+  {
+    margin-bottom    : 15px;
+    padding          : 10px;
+    border-left      : 5px solid var(--montSerrat, #555); /* Exemplo de cor para destaque */
+    background-color : #f9f9f9;
   }
 
-  .team-group h4 {
-    margin-top: 0;
-    margin-bottom: 5px;
-    color: #007bff; /* Cor de destaque para o nome do time */
+  .team-group h4
+  {
+    margin-top    : 0;
+    margin-bottom : 5px;
+    color         : #007bff; /* Cor de destaque para o nome do time */
   }
 
-  .sticker-list {
-    font-size: 1rem;
-    line-height: 1.6;
-    word-break: break-all; /* Garante que os números longos quebrem a linha */
+  .sticker-list
+  {
+    font-size   : 1rem;
+    line-height : 1.6;
+    word-break  : break-all; /* Garante que os números longos quebrem a linha */
   }
 
   /* Exemplo de estilo opcional para o botão de repetidas */
-  .duplicate-button {
+  .duplicate-button
+  {
     /* Pode-se adicionar uma cor diferente para destaque, por exemplo */
-    color: #ffc107; /* Amarelo/Laranja para indicar algo extra/duplicado */
-    /* text-decoration: none; */ /* Se não quiser o sublinhado */
+    color : #ffc107; /* Amarelo/Laranja para indicar algo extra/duplicado */
+    /* text-decoration: none; */
+    /* Se não quiser o sublinhado */
   }
 
+}
+
+/* === ESTILOS DO HAMBÚRGUER E NAV ALBUM === */
+.navAlbum
+{
+  /* 1. Torna o elemento fixo na janela de visualização */
+  position         : fixed;
+
+  /* 2. Define a posição vertical no topo */
+  top              : 0;
+
+  /* 3. Define a posição horizontal (esquerda) */
+  left             : 0;
+
+  /* 4. Faz com que ele ocupe 100% da largura */
+  width            : 100%;
+
+  /* 5. Estilos de aparência (opcional, mas recomendado para contraste) */
+  background-image : linear-gradient(to left, #7600ad, #3D005AFF, #170a55);
+  color            : white; /* Cor do texto */
+  padding          : 1rem 0; /* Espaçamento interno (topo/base) */
+  z-index          : 1000; /* Garante que fique acima de outros elementos */
+  margin-left      : auto;
+  margin-right     : auto;
+  display          : flex;
+  align-items      : center;
+  justify-content  : center;
+  box-shadow       : 0.1rem 0.2rem 1rem rgb(0, 0, 0, 0.4);
+
+}
+
+
+.hamburger-button
+{
+  background    : none;
+  border        : none;
+  border-radius : 4px;
+  padding       : 5px 10px;
+  cursor        : pointer;
+  margin-left   : 15px; /* Espaço entre o nome do arquivo e o botão */
+
+}
+
+.hamburger-icon
+{
+  font-size      : 1.5rem;
+  line-height    : 0.5rem;
+  color          : var(--card);
+  vertical-align : middle;
+  cursor         : pointer;
+}
+
+/* ================= ESTILOS DO MODAL/PAINEL DE AÇÕES =================== */
+
+.modal-backdrop
+{
+  position        : fixed;
+  top             : 0;
+  left            : 0;
+  width           : 100%;
+  height          : 100%;
+  z-index         : 1050; /* Alto para cobrir tudo */
+  background      : rgba(0, 0, 0, 0.4);
+  backdrop-filter : blur(4px);
+}
+
+.actions-modal
+{
+  position         : fixed;
+  top              : 50%; /* Centraliza verticalmente */
+  left             : 50%; /* Centraliza horizontalmente */
+  transform        : translate(-50%, -50%); /* Ajuste final de centralização */
+
+  width            : 85%;
+  max-width        : 400px; /* Largura máxima para desktops */
+  background-color : rgba(0, 0, 0, 0.71);
+  border-radius    : 1.5rem;
+  box-shadow       : 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index          : 1060;
+  padding          : 15px;
+}
+
+.modal-header
+{
+  display         : flex;
+  justify-content : space-between;
+  align-items     : center;
+  border-bottom   : 1px solid #eee;
+  padding-bottom  : 10px;
+  margin-bottom   : 15px;
+}
+
+#actionsModalTitle
+{
+  color       : var(--light);
+  font-family : var(--inter);
+}
+
+
+.modal-body
+{
+  display        : flex;
+  flex-direction : column;
+  gap            : 10px; /* Espaçamento entre os botões */
+}
+
+/* ===================  botões do modal ==================== */
+.modal-action-button
+{
+  padding                 : 0.75rem 2rem;
+  border-radius           : 1.4rem;
+  text-align              : center;
+  cursor                  : pointer;
+  border                  : 1px solid transparent;
+  font-weight             : 500;
+  width                   : 100%;
+  backdrop-filter         : blur(14px);
+  -webkit-backdrop-filter : blur(14px);
+  transition              : background 180ms ease,
+  box-shadow 180ms ease,
+  transform 150ms ease;
+  display                 : flex;
+  align-items             : center;
+  justify-content         : center;
+  gap                     : 0.5rem;
+  margin-bottom           : 1.2rem;
+  display                 : flex;
+  align-items             : center;
+  justify-content         : center;
+  gap                     : 0.5rem;
+  width                   : fit-content;
+  min-width               : 16.5rem;
+  opacity                 : 1;
+  font-size               : 0.9rem;
+  margin-left             : auto;
+  margin-right            : auto;
+
+  &:hover
+  {
+    box-shadow : 0 4px 12px rgba(255, 255, 255, 0.18);
+  }
+}
+
+
+.modal-action-button:hover
+{
+  transform  : translateY(-1px);
+  box-shadow : 0 8px 22px rgba(0, 0, 0, 0.18);
+}
+
+.import-label
+{
+  background : linear-gradient(
+      180deg,
+      rgba(0, 122, 255, 0.28),
+      rgba(0, 122, 255, 0.18)
+  );
+
+  min-width  : 12.4rem;
+  font-size  : 0.88rem;
+  color      : var(--selected);
+  border     : 1px solid rgba(0, 122, 255, 0.35);
+}
+
+.export
+{
+  background : linear-gradient(
+      180deg,
+      rgba(52, 199, 89, 0.28),
+      rgba(52, 199, 89, 0.18)
+  );
+  color      : var(--have);
+  border     : 1px solid rgba(52, 199, 89, 0.35);
+}
+
+.reset2
+{
+  background : linear-gradient(
+      180deg,
+      rgba(255, 69, 58, 0.28),
+      rgba(255, 69, 58, 0.18)
+  );
+
+  color      : var(--danger);
+  border     : 1px solid rgba(255, 69, 58, 0.4);
+}
+
+.has-bt
+{
+  background : linear-gradient(
+      180deg,
+      rgba(191, 90, 242, 0.26),
+      rgba(191, 90, 242, 0.16)
+  );
+
+  color      : var(--purple);
+  border     : 1px solid rgba(191, 90, 242, 0.35);
+}
+
+.duplicate-bt
+{
+  background : linear-gradient(
+      180deg,
+      rgba(255, 159, 10, 0.28),
+      rgba(255, 159, 10, 0.18)
+  );
+
+  color      : var(--dup);
+  border     : 1px solid rgba(255, 159, 10, 0.35);
+}
+
+.material-symbols-outlined
+{
+  font-size : 1.25rem;
+  opacity   : 0.8;
+}
+
+/* ===================  fim dos botões ==================== */
+
+
+/* INPUT FILE OCULTO */
+.hidden-input
+{
+  width    : 0.1px;
+  height   : 0.1px;
+  opacity  : 0;
+  overflow : hidden;
+  position : absolute;
+  z-index  : -1;
+}
+
+.close
+{
+  background : none;
+  border     : none;
+  padding    : 5px;
+  cursor     : pointer;
+  color      : var(--textHave);
+}
+
+/*=======================chatgpt========================*/
+/* ===== MODAL "TENHO" – TOTALMENTE ISOLADO ===== */
+/* ===============================
+   MODAL "TENHO" – SCSS iSOLADO
+   =============================== */
+.iHas
+{
+  position        : fixed;
+  inset           : 0;
+  z-index         : 3000;
+
+  display         : flex;
+  align-items     : center;
+  justify-content : center;
+
+  padding         : 1rem;
+
+  background      : rgba(0, 0, 0, 0.4);
+  backdrop-filter : blur(8px);
+
+  /* container do modal */
+  > div[role='dialog']
+  {
+    width          : 100%;
+    max-width      : 500px;
+    max-height     : 85vh;
+    display        : flex;
+    flex-direction : column;
+
+    background     : #f5f5f7;
+    border-radius  : 18px;
+    overflow       : hidden;
+
+    box-shadow     : 0 20px 40px rgba(0, 0, 0, 0.25),
+    0 1px 0 rgba(255, 255, 255, 0.6) inset;
+  }
+
+  /* ===== HEADER ===== */
+  .modal-header
+  {
+    display         : flex;
+    align-items     : center;
+    justify-content : space-between;
+
+    padding         : 0.85rem 1rem;
+
+    background      : linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0.95),
+        rgba(245, 245, 247, 0.95)
+    );
+
+    border-bottom   : 1px solid rgba(0, 0, 0, 0.08);
+
+    h3
+    {
+      margin      : 0;
+      font-size   : 1.1rem;
+      font-weight : 600;
+      color       : #1d1d1f;
+      font-family : var(--inter);
+    }
+
+    .close
+    {
+      all             : unset;
+      cursor          : pointer;
+
+      width           : 32px;
+      height          : 32px;
+      border-radius   : 50%;
+
+      display         : flex;
+      align-items     : center;
+      justify-content : center;
+
+      background      : rgba(0, 0, 0, 0.06);
+      transition      : background 0.2s ease, transform 0.15s ease;
+
+      span
+      {
+        font-size : 20px;
+        color     : #1d1d1f;
+      }
+
+      &:hover
+      {
+        background : rgba(0, 0, 0, 0.12);
+      }
+
+      &:active
+      {
+        transform : scale(0.92);
+      }
+    }
+  }
+
+  /* ===== BODY COM SCROLL ===== */
+  .custom-modal-body
+  {
+    flex                       : 1;
+    padding                    : 0.9rem 1rem;
+
+    overflow-y                 : auto;
+    -webkit-overflow-scrolling : touch;
+
+    scrollbar-width            : thin;
+    scrollbar-color            : rgba(0, 0, 0, 0.25) transparent;
+
+    &::-webkit-scrollbar
+    {
+      width : 6px;
+    }
+
+    &::-webkit-scrollbar-thumb
+    {
+      background    : rgba(0, 0, 0, 0.25);
+      border-radius : 8px;
+    }
+  }
+
+  /* ===== GRUPOS ===== */
+  .team-group
+  {
+    background    : #fff;
+    border-radius : 14px;
+
+    padding       : 0.75rem 0.85rem;
+    margin-bottom : 0.7rem;
+
+    box-shadow    : 0 1px 2px rgba(0, 0, 0, 0.08),
+    0 0 0 1px rgba(0, 0, 0, 0.03);
+
+    h4
+    {
+      margin      : 0 0 0.3rem;
+      font-size   : 0.95rem;
+      font-weight : 700;
+      color       : #1d1d1f;
+      font-family : var(--inter);
+    }
+
+    .sticker-list
+    {
+      margin      : 0;
+      font-size   : 0.9rem;
+      line-height : 1.4;
+      color       : #6e6e73;
+      word-break  : break-word;
+    }
+  }
+
+  /* estado vazio */
+  .custom-modal-body > p
+  {
+    margin-top : 2rem;
+    text-align : center;
+    font-size  : 0.85rem;
+    color      : #6e6e73;
+  }
+}
+
+.tabs {
+  display: flex;
+  overflow-x: auto;
+  white-space: nowrap;
+  padding: 10px 0;
+  gap: 8px;
+  cursor: grab; // Cursor de "mãozinha" para arrastar
+  user-select: none; // Impede selecionar texto enquanto arrasta
+  -webkit-overflow-scrolling: touch; // Rolagem suave no iOS
+
+  // Esconder barra de rolagem
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  scrollbar-width: none; // Firefox
+
+  &:active {
+    cursor: grabbing; // Cursor de "agarrar" durante o arraste
+
+  }
+
+  button {
+    flex: 0 0 auto; // Impede que o botão encolha
+    padding: 0.75rem 1rem;
+    border-radius: 2rem;
+    border: none;
+    background: rgba(0, 0, 0, 0.05);
+    color: #1d1d1f;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    cursor: pointer;
+
+    &.active {
+      background  : linear-gradient(
+          180deg,
+          rgba(0, 122, 255, 0.28),
+          rgba(0, 122, 255, 0.18)
+      );
+      color: var(--selected);
+    }
+
+    &:hover:not(.active) {
+      background: rgba(0, 0, 0, 0.1);
+    }
+  }
 }

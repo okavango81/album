@@ -15,7 +15,8 @@ import {FormsModule} from '@angular/forms';
   styleUrl: './album.scss',
 })
 export class Album {
-
+  isActionsModalOpen: boolean = false;
+  isActionsModalOpen2: boolean = false;
   FILE_NAME_STORAGE_KEY = 'album_file_name';
   figurinhas: Figurinha[] = [];
   lastClick = 0;
@@ -23,7 +24,7 @@ export class Album {
   @ViewChild('searchInput') searchInput!: ElementRef<HTMLInputElement>;
 
   numberOnly: boolean = false;
-  fileName?: string = '';
+  fileName: string = 'marque uma figurinha e exporte';
 
   textOrNumberOnly() {
     this.numberOnly = !this.numberOnly;
@@ -321,7 +322,7 @@ export class Album {
         this.stickerService.resetAll();
         this.figurinhas = this.stickerService.getAll();
         // 1. Armazena o nome na variável de classe
-        this.fileName = "Meu álbum (não salvo ainda)";
+        this.fileName = "marque uma figurinha e exporte";
 
         // 2. PERSISTE: Salva o nome no localStorage
         localStorage.setItem(this.FILE_NAME_STORAGE_KEY, this.fileName);
@@ -408,13 +409,13 @@ export class Album {
   }
 
   // Métodos para abrir e fechar o modal
-  openHasModal() {
-    this.showHasModal = true;
-  }
-
-  closeHasModal() {
-    this.showHasModal = false;
-  }
+  // openHasModal() {
+  //   this.showHasModal = true;
+  // }
+  //
+  // closeHasModal() {
+  //   this.showHasModal = false;
+  // }
 
   // Formata a lista de figurinhas em uma string
   formatStickers(stickers: Figurinha[]): string {
@@ -474,5 +475,45 @@ export class Album {
       })
       .join(', ');
   }
+
+  openHasModal() {
+    this.isActionsModalOpen2 = true;
+    document.body.classList.add('modal-open');
+  }
+
+  closeHasModal() {
+    this.isActionsModalOpen2 = false;
+    document.body.classList.remove('modal-open');
+  }
+
+  // Pegamos a referência da div .tabs
+  @ViewChild('tabsContainer') tabsContainer!: ElementRef;
+
+  isMouseDown = false;
+  startX: number = 0;
+  scrollLeft: number = 0;
+
+  startDragging(e: MouseEvent) {
+    this.isMouseDown = true;
+    const container = this.tabsContainer.nativeElement;
+    // Ponto inicial do clique menos o deslocamento do container
+    this.startX = e.pageX - container.offsetLeft;
+    this.scrollLeft = container.scrollLeft;
+  }
+
+  stopDragging() {
+    this.isMouseDown = false;
+  }
+
+  moveEvent(e: MouseEvent) {
+    if (!this.isMouseDown) return;
+    e.preventDefault();
+
+    const container = this.tabsContainer.nativeElement;
+    const x = e.pageX - container.offsetLeft;
+    const walk = (x - this.startX) * 2; // Multiplicador de velocidade
+    container.scrollLeft = this.scrollLeft - walk;
+  }
+
 
 }
