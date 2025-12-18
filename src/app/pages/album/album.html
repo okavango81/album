@@ -176,13 +176,6 @@
                style="display: none;"/>
 
         <button
-          (click)="resetAll(); isActionsModalOpen = false"
-          class="modal-action-button reset2"
-        >
-          <span class="material-symbols-outlined">delete</span>Apagar Álbum
-        </button>
-
-        <button
           (click)="exportData(); isActionsModalOpen = false"
           class="modal-action-button export"
         >
@@ -191,7 +184,6 @@
 
         @if (!isEmptyAlbum) {
 
-          <!--          <button class="modal-action-button has-bt" (click)="openHasModal()">-->
           <button class="modal-action-button has-bt"
                   (click)="isActionsModalOpen = false; isActionsModalOpen2=true">
             <span class="material-symbols-outlined">file_present</span>
@@ -203,8 +195,14 @@
             Repetidas: {{ calculateTotalDuplicates() }}
           </button>
 
-          <span class="missing"> Faltam: {{ missingStickersCount }}</span>
+          <button
+            (click)="resetAll(); isActionsModalOpen = false"
+            class="modal-action-button reset2"
+          >
+            <span class="material-symbols-outlined">delete</span>Apagar Álbum
+          </button>
 
+          <span class="missing"> Faltam: {{ missingStickersCount }}</span>
         }
       </div>
     </div>
@@ -237,7 +235,7 @@
           }
 
           @if (getHasStickersGrouped().length === 0) {
-            <p>Você ainda não marcou nenhuma figurinha como 'tenho'.</p>
+            <p>Você ainda não marcou nenhuma figurinha.</p>
           }
         </div>
       </div>
@@ -261,14 +259,6 @@
                (click)="textOrNumberOnly()"> Apenas por número
       </label>
     </div>
-
-    <!--    <div class="tabs">-->
-      <!--      <button *ngFor="let t of teams; let i = index"-->
-      <!--              (click)="selectTeam(i)"-->
-      <!--              [class.active]="i === selectedTeamIndex"-->
-      <!--              [id]="'team-' + i"> {{ t.name }}-->
-      <!--      </button>-->
-      <!--    </div>-->
     <div class="tabs"
          #tabsContainer
          (mousedown)="startDragging($event)"

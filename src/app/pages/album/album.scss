@@ -1094,11 +1094,11 @@ div.reset
 
   width            : 85%;
   max-width        : 400px; /* Largura máxima para desktops */
-  background-color : rgba(0, 0, 0, 0.71);
+  background-color : rgba(21, 21, 21, 0.6);
   border-radius    : 1.5rem;
-  box-shadow       : 0 4px 12px rgba(0, 0, 0, 0.3);
   z-index          : 1060;
   padding          : 15px;
+  backdrop-filter  : blur(1px);
 }
 
 .modal-header
@@ -1152,7 +1152,7 @@ div.reset
   width                   : fit-content;
   min-width               : 16.5rem;
   opacity                 : 1;
-  font-size               : 0.9rem;
+  font-size               : 0.95rem;
   margin-left             : auto;
   margin-right            : auto;
 
@@ -1173,7 +1173,7 @@ div.reset
 {
   background : linear-gradient(
       180deg,
-      rgba(0, 122, 255, 0.28),
+      rgba(0, 122, 255, 0.58),
       rgba(0, 122, 255, 0.18)
   );
 
@@ -1187,7 +1187,7 @@ div.reset
 {
   background : linear-gradient(
       180deg,
-      rgba(52, 199, 89, 0.28),
+      rgba(52, 199, 89, 0.58),
       rgba(52, 199, 89, 0.18)
   );
   color      : var(--have);
@@ -1198,7 +1198,7 @@ div.reset
 {
   background : linear-gradient(
       180deg,
-      rgba(255, 69, 58, 0.28),
+      rgba(255, 69, 58, 0.58),
       rgba(255, 69, 58, 0.18)
   );
 
@@ -1210,19 +1210,19 @@ div.reset
 {
   background : linear-gradient(
       180deg,
-      rgba(191, 90, 242, 0.26),
-      rgba(191, 90, 242, 0.16)
+      rgba(191, 90, 242, 0.58),
+      rgba(191, 90, 242, 0.18)
   );
 
   color      : var(--purple);
-  border     : 1px solid rgba(191, 90, 242, 0.35);
+  border     : 1px solid rgba(191, 90, 242, 0.8);
 }
 
 .duplicate-bt
 {
   background : linear-gradient(
       180deg,
-      rgba(255, 159, 10, 0.28),
+      rgba(255, 159, 10, 0.58),
       rgba(255, 159, 10, 0.18)
   );
 
@@ -1252,11 +1252,17 @@ div.reset
 
 .close
 {
-  background : none;
-  border     : none;
-  padding    : 5px;
-  cursor     : pointer;
-  color      : var(--textHave);
+  all             : unset;
+  cursor          : pointer;
+  width           : 32px;
+  height          : 32px;
+  border-radius   : 50%;
+  display         : flex;
+  align-items     : center;
+  justify-content : center;
+  background      : rgba(255, 255, 255, 0.58);
+  transition      : background 0.2s ease, transform 0.15s ease;
+
 }
 
 /*=======================chatgpt========================*/
@@ -1326,15 +1332,12 @@ div.reset
     {
       all             : unset;
       cursor          : pointer;
-
       width           : 32px;
       height          : 32px;
       border-radius   : 50%;
-
       display         : flex;
       align-items     : center;
       justify-content : center;
-
       background      : rgba(0, 0, 0, 0.06);
       transition      : background 0.2s ease, transform 0.15s ease;
 
@@ -1421,49 +1424,56 @@ div.reset
   }
 }
 
-.tabs {
-  display: flex;
-  overflow-x: auto;
-  white-space: nowrap;
-  padding: 10px 0;
-  gap: 8px;
-  cursor: grab; // Cursor de "mãozinha" para arrastar
-  user-select: none; // Impede selecionar texto enquanto arrasta
-  -webkit-overflow-scrolling: touch; // Rolagem suave no iOS
+.tabs
+{
+  display                    : flex;
+  overflow-x                 : auto;
+  white-space                : nowrap;
+  padding                    : 10px 0;
+  gap                        : 8px;
+  cursor                     : grab; // Cursor de "mãozinha" para arrastar
+  user-select                : none; // Impede selecionar texto enquanto arrasta
+  -webkit-overflow-scrolling : touch; // Rolagem suave no iOS
 
   // Esconder barra de rolagem
-  &::-webkit-scrollbar {
-    display: none;
-  }
-  scrollbar-width: none; // Firefox
-
-  &:active {
-    cursor: grabbing; // Cursor de "agarrar" durante o arraste
-
+  &::-webkit-scrollbar
+  {
+    display : none;
   }
 
-  button {
-    flex: 0 0 auto; // Impede que o botão encolha
-    padding: 0.75rem 1rem;
-    border-radius: 2rem;
-    border: none;
-    background: rgba(0, 0, 0, 0.05);
-    color: #1d1d1f;
-    font-weight: 500;
-    transition: all 0.2s ease;
-    cursor: pointer;
+  scrollbar-width            : none; // Firefox
 
-    &.active {
-      background  : linear-gradient(
+  &:active
+  {
+    cursor : grabbing; // Cursor de "agarrar" durante o arraste
+
+  }
+
+  button
+  {
+    flex          : 0 0 auto; // Impede que o botão encolha
+    padding       : 0.75rem 1rem;
+    border-radius : 2rem;
+    border        : none;
+    background    : rgba(0, 0, 0, 0.05);
+    color         : #1d1d1f;
+    font-weight   : 500;
+    transition    : all 0.2s ease;
+    cursor        : pointer;
+
+    &.active
+    {
+      background : linear-gradient(
           180deg,
           rgba(0, 122, 255, 0.28),
           rgba(0, 122, 255, 0.18)
       );
-      color: var(--selected);
+      color      : var(--selected);
     }
 
-    &:hover:not(.active) {
-      background: rgba(0, 0, 0, 0.1);
+    &:hover:not(.active)
+    {
+      background : rgba(0, 0, 0, 0.1);
     }
   }
 }
